@@ -1,18 +1,12 @@
-import { forwardRef, Injectable, OnInit } from "@angular/core";
-import { NodeComponent } from "./node.component";
+import { Injectable } from "@angular/core";
 
-@Injectable({ providedIn: forwardRef(() => NodeComponent) })
-export class NodeService implements OnInit {
+@Injectable()
+export class NodeService  {
 
-    id: string = 'bublil';
-    ngOnInit(): void {
-        console.log('init')
-    }
+    private _id: string | undefined;
 
-    setNode(id: string): void {
-        console.log(this.id)
-        console.log(id);
-        this.id = id;
-        console.log(this.id);
+    init(id: string): void {
+        if (this._id != null) throw 'initialized twice ' + id;
+        this._id = id;
     }
 }

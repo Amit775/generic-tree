@@ -1,8 +1,8 @@
-import { BoundElementProperty } from '@angular/compiler';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { TreeService } from '../../core/tree.service';
-import { INodeState, TreeQuery } from '../../core/tree.store';
+import { TreeService } from '../../core/tree/tree.service';
+import { TreeQuery } from '../../core/tree/tree.query';
+import { INodeState } from '../../models/node.state';
 
 @Component({
   selector: 'tree-root',
@@ -20,7 +20,6 @@ export class RootComponent implements OnInit {
 
   ngOnInit(): void {
     this.service.setNodes(this.removeChildren(this.nodes));
-    console.log(this.nodes);
   }
 
   removeChildren(nodes: INodeState[]): INodeState[] {

@@ -4,7 +4,7 @@ import {
   Input,
   OnInit
 } from '@angular/core';
-import { INodeState } from '../../core/tree.store';
+import { INodeState } from '../../models/node.state';
 
 
 @Component({

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { INodeState } from './tree/core/tree.store';
+import { INodeState } from './tree/models/node.state';
 
 @Component({
   selector: 'app-root',

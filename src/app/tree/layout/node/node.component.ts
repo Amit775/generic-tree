@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { INodeState } from 'src/app/tree/core/tree.store';
+import { INodeState } from '../../models/node.state';
 import { NodeService } from './node.service';
 
 @Component({
@@ -15,8 +15,7 @@ export class NodeComponent implements OnInit {
   constructor(private service: NodeService) { }
 
   ngOnInit(): void {
-    console.log('from node - init', this.node);
-    this.service.setNode(this.node.id);
+    this.service.init(this.node.id);
   }
 
 }

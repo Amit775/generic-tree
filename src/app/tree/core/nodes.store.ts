@@ -6,23 +6,23 @@ import {
   QueryEntity,
   EntityState,
 } from '@datorama/akita';
-import { INodeState } from './tree.store';
+import { INodeState } from '../models/node.state';
 
 
-export interface INodeEntityState extends EntityState<{}, string> {}
+interface INodeEntityState extends EntityState<{}, string> {}
 
-export interface StoreQuery<S = unknown> {
+interface StoreQuery<S = unknown> {
   store: Store<S>;
   query: Query<S>;
 }
 
-export interface EntityStoreQuery<S extends EntityState> {
+interface EntityStoreQuery<S extends EntityState> {
   store: EntityStore<S>;
   query: QueryEntity<S>;
 }
 
 @Injectable({ providedIn: 'root' })
-export class NodesStoresService {
+class NodesStoresService {
   private readonly stores = new Map<string, StoreQuery>();
   private readonly entitesStores = new Map<string, EntityStoreQuery<INodeEntityState>>();
 

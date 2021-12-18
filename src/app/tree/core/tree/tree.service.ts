@@ -1,5 +1,7 @@
 import { Injectable } from "@angular/core";
-import { INodeState, TreeQuery, TreeStore } from "./tree.store";
+import { TreeStore } from "./tree.store";
+import { TreeQuery } from "./tree.query";
+import { INodeState } from "../../models/node.state";
 
 @Injectable({ providedIn: 'root' })
 export class TreeService {
