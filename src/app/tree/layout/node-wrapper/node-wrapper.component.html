@@ -1,7 +1,10 @@
-<div class="tree-node-wrapper">
-    <tree-node-indicator [node]="node"></tree-node-indicator>
-    <tree-node-expander [node]="node"></tree-node-expander>
-    <div class="tree-node-content-wrapper">
-        <tree-node-content [node]="node"></tree-node-content>
-    </div>
+<div
+  class="tree-node-wrapper"
+  [style.padding-left]="(node.path.length) * 100 + 'px'"
+>
+  <tree-node-indicator [node]="node"></tree-node-indicator>
+  <tree-node-expander [node]="node"></tree-node-expander>
+  <div class="tree-node-content-wrapper">
+    <tree-node-content [node]="node"></tree-node-content>
+  </div>
 </div>

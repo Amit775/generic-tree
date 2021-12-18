@@ -24,6 +24,9 @@ import { NodeChildrenComponent } from './layout/node-children/node-children.comp
   ],
   imports: [
     CommonModule
+  ],
+  exports: [
+    RootComponent
   ]
 })
 export class TreeModule { }

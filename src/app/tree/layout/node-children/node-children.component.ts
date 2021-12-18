@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { INode } from '../node-content/node-content.component';
+import { Observable } from 'rxjs';
+import { INodeState, TreeQuery } from '../../core/tree.store';
+import { NodeService } from '../node/node.service';
 
 @Component({
   selector: 'tree-node-children',
@@ -9,10 +11,15 @@ import { INode } from '../node-content/node-content.component';
 })
 export class NodeChildrenComponent implements OnInit {
 
-  @Input() node!: INode;
-  constructor() { }
+  @Input() node!: INodeState;
+  constructor(private query: TreeQuery, private nodeService: NodeService) { }
+
+  children$!: Observable<INodeState[]>;
 
   ngOnInit(): void {
+    console.log(this.nodeService.id);
+    console.log(this.node);
+    this.children$ = this.query.selectChildrenNodes(this.node?.id);
   }
 
 }

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { INode } from '../node-content/node-content.component';
+import { INodeState } from '../../core/tree.store';
 
 @Component({
   selector: 'tree-node-expander',
@@ -9,7 +9,7 @@ import { INode } from '../node-content/node-content.component';
 })
 export class NodeExpanderComponent implements OnInit {
 
-  @Input() node!: INode;
+  @Input() node!: INodeState;
   constructor() { }
 
   ngOnInit(): void {

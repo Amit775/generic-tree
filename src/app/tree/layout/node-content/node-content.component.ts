@@ -1,22 +1,21 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit
+} from '@angular/core';
+import { INodeState } from '../../core/tree.store';
 
-export interface INode {
-  display: string;
-  chiildren: Node[];
-}
 
 @Component({
   selector: 'tree-node-content',
   templateUrl: './node-content.component.html',
   styleUrls: ['./node-content.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NodeContentComponent implements OnInit {
+  @Input() node!: INodeState;
+  constructor() {}
 
-  @Input() node!: INode;
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

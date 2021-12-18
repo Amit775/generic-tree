@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { INode } from '../node-content/node-content.component';
+import { INodeState } from '../../core/tree.store';
 
 @Component({
   selector: 'tree-node-collection',
@@ -9,7 +9,8 @@ import { INode } from '../node-content/node-content.component';
 })
 export class NodeCollectionComponent implements OnInit {
 
-  @Input() nodes!: INode[];
+  @Input() nodes: INodeState[] | null = [];
+
   constructor() { }
 
   ngOnInit(): void {
