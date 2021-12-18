@@ -8,6 +8,7 @@ import { NodeExpanderComponent } from './layout/node-expander/node-expander.comp
 import { NodeContentComponent } from './layout/node-content/node-content.component';
 import { NodeCollectionComponent } from './layout/node-collection/node-collection.component';
 import { NodeChildrenComponent } from './layout/node-children/node-children.component';
+import { AnimateExpandDirective } from './shared/animate-expand/animate-expand.directive';
 
 
 
@@ -20,7 +21,8 @@ import { NodeChildrenComponent } from './layout/node-children/node-children.comp
     NodeExpanderComponent,
     NodeContentComponent,
     NodeCollectionComponent,
-    NodeChildrenComponent
+    NodeChildrenComponent,
+    AnimateExpandDirective
   ],
   imports: [
     CommonModule

@@ -46,7 +46,9 @@ export class AppComponent implements OnInit {
       data,
       indexInParent: index,
       path: parent ? [...parent.path, parent.id] : [],
-      flags: {},
+      flags: {
+        expanded: false
+      },
       id: uuid()
     }
 

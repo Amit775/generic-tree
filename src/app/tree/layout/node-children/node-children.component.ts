@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { distinctUntilChanged, map, Observable } from 'rxjs';
 import { TreeQuery } from '../../core/tree/tree.query';
 import { INodeState } from '../../models/node.state';
 import { NodeService } from '../node/node.service';
@@ -16,9 +16,14 @@ export class NodeChildrenComponent implements OnInit {
   constructor(private query: TreeQuery, private nodeService: NodeService) { }
 
   children$!: Observable<INodeState[]>;
+  isExpanded$!: Observable<boolean | undefined>;
 
   ngOnInit(): void {
     this.children$ = this.query.selectChildrenNodes(this.node?.id);
+    this.isExpanded$ = this.query.selectEntity(this.node.id).pipe(
+      map(node => node?.flags['expanded']),
+      distinctUntilChanged()
+    );
   }
 
 }

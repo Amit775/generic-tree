@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { INodeState } from '../../models/node.state';
 
 @Component({
@@ -10,9 +10,14 @@ import { INodeState } from '../../models/node.state';
 export class NodeExpanderComponent implements OnInit {
 
   @Input() node!: INodeState;
+  @Output() toggled = new EventEmitter<void>();
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  toggle(): void {
+    this.toggled.emit();
   }
 
 }
