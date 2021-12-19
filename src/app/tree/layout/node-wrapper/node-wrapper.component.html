@@ -2,7 +2,7 @@
   class="tree-node-wrapper"
   [style.padding-left]="(node.path.length) * 100 + 'px'"
 >
-  <tree-node-indicator [node]="node"></tree-node-indicator>
+  <tree-node-indicators [node]="node"></tree-node-indicators>
   <tree-node-expander [node]="node" (toggled)="toggleExpand()"></tree-node-expander>
   <div class="tree-node-content-wrapper">
     <tree-node-content [node]="node"></tree-node-content>

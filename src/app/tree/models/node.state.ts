@@ -1,3 +1,4 @@
+import { IIndicator } from "../layout/node-indicators/node-indicator/node-indicator.component";
 import { Flags } from "./flags.model";
 
 export interface INodeState {
@@ -7,4 +8,5 @@ export interface INodeState {
     flags: Flags;
     indexInParent: number;
     data: any;
+    indicators?: IIndicator[];
   }

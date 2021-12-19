@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { RootComponent } from './layout/root/root.component';
 import { NodeComponent } from './layout/node/node.component';
 import { NodeWrapperComponent } from './layout/node-wrapper/node-wrapper.component';
-import { NodeIndicatorComponent } from './layout/node-indicator/node-indicator.component';
+import { NodeIndicatorComponent } from './layout/node-indicators/node-indicator/node-indicator.component';
 import { NodeExpanderComponent } from './layout/node-expander/node-expander.component';
 import { NodeContentComponent } from './layout/node-content/node-content.component';
 import { NodeCollectionComponent } from './layout/node-collection/node-collection.component';
 import { NodeChildrenComponent } from './layout/node-children/node-children.component';
 import { AnimateExpandDirective } from './shared/animate-expand/animate-expand.directive';
+import { MaterialModule } from './shared/material/material.module';
+import { NodeIndicatorsComponent } from './layout/node-indicators/node-indicators.component';
 
 
 
@@ -22,10 +24,12 @@ import { AnimateExpandDirective } from './shared/animate-expand/animate-expand.d
     NodeContentComponent,
     NodeCollectionComponent,
     NodeChildrenComponent,
-    AnimateExpandDirective
+    AnimateExpandDirective,
+    NodeIndicatorsComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    MaterialModule
   ],
   exports: [
     RootComponent

@@ -13,8 +13,7 @@ export class NodeExpanderComponent implements OnInit {
   @Output() toggled = new EventEmitter<void>();
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   toggle(): void {
     this.toggled.emit();
