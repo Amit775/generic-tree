@@ -1,6 +1,6 @@
 <div class="tree-node-children" *animateExpand="(isExpanded$ | async) === true">
-    <tree-node-collection *ngIf="node.children" [nodes]="children$ | async">
-        <ng-content select="[treeNodeContent]" ngProjectAs="[treeNodeContent]"></ng-content>
-        
-    </tree-node-collection>
+    <tree-node-collection *ngIf="node.children" 
+    [nodes]="children$ | async"
+    [templates]="(templates | async)!"
+    ></tree-node-collection>
 </div>

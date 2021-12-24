@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 import { distinctUntilChanged, map, Observable } from 'rxjs';
 import { TreeQuery } from '../../core/tree/tree.query';
 import { INodeState } from '../../models/node.state';
-import { NodeService } from '../node/node.service';
+import { NodeService, TreeNodeTemplates } from '../node/node.service';
 
 @Component({
   selector: 'tree-node-children',
@@ -17,6 +17,10 @@ export class NodeChildrenComponent implements OnInit {
 
   children$!: Observable<INodeState[]>;
   isExpanded$!: Observable<boolean | undefined>;
+
+  public get templates(): Observable<TreeNodeTemplates> {
+    return this.nodeService.templates$;
+  }
 
   ngOnInit(): void {
     this.children$ = this.query.selectChildrenNodes(this.node?.id);

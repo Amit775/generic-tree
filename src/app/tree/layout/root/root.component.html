@@ -1,4 +1,6 @@
 <div class="tree-root">
-    <tree-node-collection [nodes]="roots$ | async">
+    <tree-node-collection [nodes]="roots$ | async" [templates]="templates">
+        <ng-content select="treeNodeExpander"></ng-content>
+        <ng-content select="treeNodeIndicator"></ng-content>
     </tree-node-collection>
 </div>

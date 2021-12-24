@@ -1,4 +1,3 @@
 <div class="tree-node-content">
-    <span> {{ node | json }} </span>
-    <ng-content select="[treeNodeContent]"></ng-content>
+    <ng-container [ngTemplateOutlet]="this.template$ | async" [ngTemplateOutletContext]="{ $implicit: node } "></ng-container>
 </div>

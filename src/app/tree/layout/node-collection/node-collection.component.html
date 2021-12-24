@@ -1,5 +1,3 @@
 <div class="tree-node-collection">
-    <tree-node *ngFor="let node of nodes" [node]="node">
-        <ng-content select="[treeNodeContent]" ngProjectAs="[treeNodeContent]"></ng-content>
-    </tree-node>
+    <tree-node *ngFor="let node of nodes" [node]="node" [templates]="templates"></tree-node>
 </div>
