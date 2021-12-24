@@ -1,0 +1,8 @@
+Notes:
+In the abstract tree we have to use template and not content projection
+Content projection doesn'tsupport to be projected into ngFor and similars
+
+hence we have to provide a way to manipulate the template of the the tree node, expander, and any of the indicator
+
+
+to check: in the concrete tree we should implement the template with content prjection

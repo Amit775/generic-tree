@@ -36,5 +36,4 @@ export class NodeIndicatorComponent implements OnInit {
   toggle(): void {
     this.toggled.emit();
   }
-
 }

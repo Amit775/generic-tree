@@ -1,1 +1,6 @@
-<tree-root [nodes]="nodes"></tree-root>
+<tree-root [nodes]="nodes">
+    <ng-template let-node treeNodeContent>
+        dsad
+        <span> {{ node.data.display }} </span>
+    </ng-template>
+</tree-root>

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ContentChildren, Input, OnInit, TemplateRef } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TreeService } from '../../core/tree/tree.service';
 import { TreeQuery } from '../../core/tree/tree.query';
@@ -11,6 +11,8 @@ import { INodeState } from '../../models/node.state';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RootComponent implements OnInit {
+
+  @ContentChildren('[treeNodeContent]') treeNodeContentTemplate!: TemplateRef<INodeState>
 
   @Input() nodes: INodeState[] = [];
 
