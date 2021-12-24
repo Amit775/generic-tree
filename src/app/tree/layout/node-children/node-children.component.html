@@ -1,6 +1,6 @@
 <div class="tree-node-children" *animateExpand="(isExpanded$ | async) === true">
     <tree-node-collection *ngIf="node.children" 
     [nodes]="children$ | async"
-    [templates]="(templates | async)!"
+    [templates]="(templates$ | async)!"
     ></tree-node-collection>
 </div>

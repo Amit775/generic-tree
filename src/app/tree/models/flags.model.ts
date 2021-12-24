@@ -1,1 +1,4 @@
-export type Flags = { [flag: string]: boolean };
+export type Flags = { 
+    expanded: boolean;
+    [flag: string]: boolean
+ };

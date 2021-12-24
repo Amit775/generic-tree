@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { distinctUntilChanged, map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { TreeQuery } from '../../core/tree/tree.query';
 import { INodeState } from '../../models/node.state';
 import { NodeService, TreeNodeTemplates } from '../node/node.service';
@@ -13,21 +13,16 @@ import { NodeService, TreeNodeTemplates } from '../node/node.service';
 export class NodeChildrenComponent implements OnInit {
 
   @Input() node!: INodeState;
-  constructor(private query: TreeQuery, private nodeService: NodeService) { }
+  constructor(private query: TreeQuery, private service: NodeService) { }
 
   children$!: Observable<INodeState[]>;
   isExpanded$!: Observable<boolean | undefined>;
-
-  public get templates(): Observable<TreeNodeTemplates> {
-    return this.nodeService.templates$;
-  }
+  templates$!: Observable<TreeNodeTemplates>;
 
   ngOnInit(): void {
     this.children$ = this.query.selectChildrenNodes(this.node?.id);
-    this.isExpanded$ = this.query.selectEntity(this.node.id).pipe(
-      map(node => node?.flags['expanded']),
-      distinctUntilChanged()
-    );
+    this.isExpanded$ = this.service.selectFlag('expanded');
+    this.templates$ = this.service.selectAllTemplates$();
   }
 
 }

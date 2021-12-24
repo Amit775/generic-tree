@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { TreeService } from '../../core/tree/tree.service';
 import { INodeState } from '../../models/node.state';
 import { NodeService } from '../node/node.service';
 

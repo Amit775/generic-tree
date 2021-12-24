@@ -1,3 +1,4 @@
 <div class="tree-node-content">
-    <ng-container [ngTemplateOutlet]="this.template$ | async" [ngTemplateOutletContext]="{ $implicit: node } "></ng-container>
+    <ng-container [ngTemplateOutlet]="this.template" [ngTemplateOutletContext]="this.context">
+    </ng-container>
 </div>

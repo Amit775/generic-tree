@@ -1,13 +1,9 @@
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
+  Component, OnInit,
   TemplateRef
 } from '@angular/core';
-import { Observable, startWith, tap } from 'rxjs';
-import { INodeState } from '../../models/node.state';
 import { NodeService, TreeNodeContext } from '../node/node.service';
 
 
@@ -18,16 +14,18 @@ import { NodeService, TreeNodeContext } from '../node/node.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NodeContentComponent implements OnInit, AfterViewInit {
-  @Input() node!: INodeState;
+  template!: TemplateRef<TreeNodeContext> | null;
+  context!: TreeNodeContext;
   constructor(private service: NodeService) { }
 
   ngOnInit(): void {
+    this.template = this.service.getTemplate('content');
+    this.context = {
+      $implicit: this.service,
+      node: this.service.getNode(),
+      templates: this.service.getAllTemplates()
+    }
   }
 
-  ngAfterViewInit(): void {
-  }
-
-  public get template$(): Observable<TemplateRef<TreeNodeContext> | null> {
-    return this.service.selectTemplate$('content');
-  }
+  ngAfterViewInit(): void { }
 }
