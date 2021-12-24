@@ -4,7 +4,8 @@ import {
   Component, OnInit,
   TemplateRef
 } from '@angular/core';
-import { NodeService, TreeNodeContext } from '../node/node.service';
+import { TemplatesService, TreeNodeContext } from '../../core/templates.service';
+import { NodeService } from '../node/node.service';
 
 
 @Component({
@@ -16,14 +17,13 @@ import { NodeService, TreeNodeContext } from '../node/node.service';
 export class NodeContentComponent implements OnInit, AfterViewInit {
   template!: TemplateRef<TreeNodeContext> | null;
   context!: TreeNodeContext;
-  constructor(private service: NodeService) { }
+  constructor(private service: NodeService, private templates: TemplatesService) { }
 
   ngOnInit(): void {
-    this.template = this.service.getTemplate('content');
+    this.template = this.templates.getTemplate('content');
     this.context = {
-      $implicit: this.service,
       node: this.service.getNode(),
-      templates: this.service.getAllTemplates()
+      templates: this.templates.getAllTemplates()
     }
   }
 

@@ -1,54 +1,14 @@
-import { Injectable, isDevMode, TemplateRef } from "@angular/core";
-import { BehaviorSubject, distinctUntilChanged, filter, map, Observable } from "rxjs";
+import { Injectable, isDevMode } from "@angular/core";
+import { distinctUntilChanged, map, Observable } from "rxjs";
 import { TreeQuery } from "../../core/tree/tree.query";
 import { TreeStore } from "../../core/tree/tree.store";
 import { Flags } from "../../models/flags.model";
 import { INodeState } from "../../models/node.state";
 
-export type ContextOf<T> = T extends TemplateRef<infer U> ? U : never;
 
-export interface TreeNodeContext {
-    $implicit: NodeService;
-    node: INodeState;
-    templates: TreeNodeTemplates;
-}
-
-export interface TreeNodeTemplates {
-    content: TemplateRef<TreeNodeContext> | null;
-    loading: TemplateRef<TreeNodeContext> | null;
-    wrapper: TemplateRef<TreeNodeContext> | null;
-    full: TemplateRef<TreeNodeContext> | null;
-}
-
-const nullTreeNodeTemplates: TreeNodeTemplates = {
-    content: null,
-    loading: null,
-    wrapper: null,
-    full: null
-}
 
 @Injectable()
 export class NodeService {
-
-    private templates$ = new BehaviorSubject<TreeNodeTemplates>(nullTreeNodeTemplates);
-    public selectAllTemplates$(): Observable<TreeNodeTemplates> {
-        return this.templates$.asObservable();
-    }
-    public selectTemplate$<K extends keyof TreeNodeTemplates>(key: K): Observable<TreeNodeTemplates[K] | null> {
-        return this.templates$.asObservable().pipe(
-            map(templates => templates[key]!),
-            distinctUntilChanged()
-        );
-    }
-
-    public getAllTemplates(): TreeNodeTemplates {
-        return this.templates$.value;
-    }
-
-    public getTemplate<K extends keyof TreeNodeTemplates>(key: K): TreeNodeTemplates[K] | null {
-        return this.templates$.value[key];
-    }
-
     constructor(private store: TreeStore, private query: TreeQuery) { }
     private _id: string | undefined;
 
@@ -66,10 +26,6 @@ export class NodeService {
                 expanded: !node.flags['expanded']
             }
         }))
-    }
-
-    setTemplates(templates: Partial<TreeNodeTemplates>): void {
-        this.templates$.next({ ...this.templates$.value, ...templates });
     }
 
     selectFlag(flag: keyof Flags): Observable<boolean> {

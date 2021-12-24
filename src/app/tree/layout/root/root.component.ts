@@ -1,9 +1,9 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ContentChild, Input, OnInit, TemplateRef } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
+import { TemplatesService, TreeNodeContext, TreeNodeTemplates } from '../../core/templates.service';
 import { TreeQuery } from '../../core/tree/tree.query';
 import { TreeService } from '../../core/tree/tree.service';
 import { INodeState } from '../../models/node.state';
-import { TreeNodeContext, TreeNodeTemplates } from '../node/node.service';
 
 @Component({
   selector: 'tree-root',
@@ -24,12 +24,12 @@ export class RootComponent implements OnInit, AfterViewInit {
       wrapper: this.treeNodeWrapperTemplate ?? null,
       loading: this.treeNodeLoadingTemplate ?? null,
       full: this.treeNodeFullTemplate ?? null
-    }
+    };
   }
-  @Input() nodes: INodeState[] = [];
 
-  ngAfterViewInit(): void {
-  }
+  ngAfterViewInit(): void { }
+
+  @Input() nodes: INodeState[] = [];
 
   constructor(private service: TreeService, private query: TreeQuery) { }
   roots$: Observable<INodeState[]> = this.query.selectAll({ filterBy: node => node.path.length === 0 });

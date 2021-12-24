@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { TemplatesService, TreeNodeTemplates } from '../../core/templates.service';
 import { INodeState } from '../../models/node.state';
-import { TreeNodeTemplates } from '../node/node.service';
 
 @Component({
   selector: 'tree-node-collection',
@@ -10,12 +10,14 @@ import { TreeNodeTemplates } from '../node/node.service';
 })
 export class NodeCollectionComponent implements OnInit, AfterViewInit {
 
-  @Input() templates!: TreeNodeTemplates;
-  @Input() nodes: INodeState[] | null = [];
-  ngAfterViewInit(): void {
-
+  @Input('templates') set templatesInput(value: TreeNodeTemplates | undefined) {
+    if (!value) return;
+    this.templates.setTemplates(value);
   }
-  constructor() { }
+  
+  @Input() nodes: INodeState[] | null = [];
+  ngAfterViewInit(): void { }
+  constructor(private templates: TemplatesService) { }
 
   ngOnInit(): void {
   }
