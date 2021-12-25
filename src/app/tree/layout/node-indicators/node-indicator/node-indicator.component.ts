@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
-import { TreeQuery } from 'src/app/tree/core/tree/tree.query';
+import { NodeQuery } from 'src/app/tree/core/node/node.query';
 import { Flags } from 'src/app/tree/models/flags.model';
 import { ITreeState } from 'src/app/tree/models/tree.state';
 import { INodeState } from '../../../models/node.state';
@@ -26,11 +26,11 @@ export class NodeIndicatorComponent implements OnInit {
   
   @Output() toggled = new EventEmitter();
   
-  constructor(private query: TreeQuery) { }
+  constructor(private query: NodeQuery) { }
   flag$!: Observable<boolean>;
   
   ngOnInit(): void {
-    this.flag$ = this.query.selectEntity(this.node.id, node => node?.flags[this.indicator.flag] == true);
+    this.flag$ = this.query.select(node => node?.flags[this.indicator.flag] == true);
   }
 
   toggle(): void {

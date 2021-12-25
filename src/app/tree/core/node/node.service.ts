@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { applyTransaction } from "@datorama/akita";
 import { Observable } from "rxjs";
 import { Flags } from "../../models/flags.model";
 import { INodeState } from "../../models/node.state";
@@ -23,15 +24,21 @@ export class NodeService {
     }
 
     toggleFlag(flag: keyof Flags, single: boolean = false): void {
-        if (single) {
-            this.treeStore.update(node => node.flags[flag] === true, this.updateFlag(flag, false))
-        }
+        applyTransaction(() => {
+            if (single) {
+                this.treeStore.update(node => node.flags[flag] === true, this.updateFlag(flag, false))
+            }
 
-        return this.store.update(this.updateFlag(flag, !this.get().flags[flag]));
+            this.store.update(this.updateFlag(flag, !this.get().flags[flag]));
+        });
     }
 
     selectFlag(flag: keyof Flags): Observable<boolean | undefined> {
         return this.query.select(node => node?.flags[flag]);
+    }
+
+    withSingleTick<T>(action: () => T): T {
+        return applyTransaction(action);
     }
 
     private updateFlag(flag: keyof Flags, value: boolean): (node: INodeState) => INodeState {
@@ -39,7 +46,7 @@ export class NodeService {
             ...node,
             flags: {
                 ...node.flags,
-                [flag]: value
+                [flag]: value || undefined
             }
         })
     }

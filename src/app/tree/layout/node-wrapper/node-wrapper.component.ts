@@ -22,12 +22,15 @@ export class NodeWrapperComponent implements OnInit {
     this.service.toggleFlag('expanded');
   }
 
-  toggleActive(event: MouseEvent): void {  
-    const multiple = event.ctrlKey;
-    this.service.toggleFlag('active', !multiple);
+  toggleActive(event: MouseEvent): void {
+    this.service.withSingleTick(() => {
+      const multiple = event.ctrlKey;
+      this.service.toggleFlag('active', !multiple);
+      if (!multiple && this.node.children != null) {
+        this.service.toggleFlag('expanded');
+      }
+    });
   }
-
-
 
   ngOnInit(): void {
     this.template = this.templates.getTemplate('wrapper');
