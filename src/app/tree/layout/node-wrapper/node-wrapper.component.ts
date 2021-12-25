@@ -22,10 +22,7 @@ export class NodeWrapperComponent implements OnInit {
 
   ngOnInit(): void {
     this.template = this.templates.getTemplate('wrapper');
-    this.context = {
-      node: this.service.get(),
-      templates: this.templates.getAllTemplates()
-    }
+    this.context = { node: this.service.get() }
   }
 
 }

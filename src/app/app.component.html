@@ -1,5 +1,13 @@
 <tree-root [nodes]="nodes">
-    <!-- <ng-template let-node="node" #treeNodeContent>
+    <ng-template let-node="node" #treeNodeContent>
+        <span>bublil</span>
         <span> {{ node | json }} </span>
-    </ng-template> -->
+    </ng-template>
+
+    <ng-template let-node="node" #treeNodeFull>
+        <span>bublil is the king</span>
+        <tree-node [node]="node">
+            <tree-node-content></tree-node-content>
+        </tree-node>
+    </ng-template>
 </tree-root>

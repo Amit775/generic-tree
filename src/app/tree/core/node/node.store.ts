@@ -1,12 +1,10 @@
 import { Injectable } from "@angular/core";
 import { UpdateStateCallback } from "@datorama/akita";
-import { Observable } from "rxjs";
 import { INodeState } from "../../models/node.state";
 import { TreeStore } from "../tree/tree.store";
 
 @Injectable()
 export class NodeStore {
-    
     private _id!: string;
     public set id(value: string) {
         if (value == null) return;
@@ -20,7 +18,6 @@ export class NodeStore {
     }
     
     constructor(private store: TreeStore) { }
-
 
     update(updatefn: UpdateStateCallback<INodeState>): void;
     update(update: Partial<INodeState>): void;

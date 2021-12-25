@@ -5,7 +5,6 @@ import { INodeState } from "../models/node.state";
 
 export interface TreeNodeContext {
     node: INodeState;
-    templates: TreeNodeTemplates;
 }
 
 export interface TreeNodeTemplates {

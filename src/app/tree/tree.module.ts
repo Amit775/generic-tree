@@ -31,7 +31,10 @@ import { MaterialModule } from './shared/material/material.module';
     MaterialModule
   ],
   exports: [
-    RootComponent
+    RootComponent,
+    NodeContentComponent,
+    NodeComponent,
+    NodeWrapperComponent
   ]
 })
 export class TreeModule { }

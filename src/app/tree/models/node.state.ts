@@ -1,12 +1,14 @@
+import { NodeService } from "../core/node/node.service";
 import { IIndicator } from "../layout/node-indicators/node-indicator/node-indicator.component";
 import { Flags } from "./flags.model";
 
-export interface INodeState {
+export interface INodeState<T = any> {
     id: string;
     children?: string[];
     path: string[];
-    flags: Flags;
+    flags: Partial<Flags>;
     indexInParent: number;
-    data: any;
+    data: T;
     indicators?: IIndicator[];
+    service?: NodeService;
   }

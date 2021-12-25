@@ -22,13 +22,10 @@ export class NodeContentComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.template = this.templates.getTemplate('content');
-    this.context = {
-      node: this.node,
-      templates: this.templates.getAllTemplates()
-    }
+    this.context = { node: this.service.get() }
   }
 
-  public get node(): INodeState {
+  public get node(): INodeState<{ display: string }> {
     return this.service.get()
   }
 

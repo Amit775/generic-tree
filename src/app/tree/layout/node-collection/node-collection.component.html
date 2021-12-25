@@ -1,3 +1,6 @@
 <div class="tree-node-collection">
-    <tree-node *ngFor="let node of nodes" [node]="node"></tree-node>
+    <ng-container *ngFor="let node of nodes">
+        <tree-node *ngIf="!template" [node]="node"></tree-node>
+        <ng-container [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{ node: node }"></ng-container>
+    </ng-container>
 </div>

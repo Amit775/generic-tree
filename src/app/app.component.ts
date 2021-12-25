@@ -46,9 +46,7 @@ export class AppComponent implements OnInit {
       data,
       indexInParent: index,
       path: parent ? [...parent.path, parent.id] : [],
-      flags: {
-        expanded: false
-      },
+      flags: {},
       id: uuid()
     }
 
@@ -59,7 +57,6 @@ export class AppComponent implements OnInit {
       nodes = [...nodes, ...childrenNodes];
       node.children = childrenNodes.map(child => child.id);
     }
-
 
     return node;
   }
@@ -74,5 +71,4 @@ function uuid(): string {
   }
 
   return lastid;
-
 }
