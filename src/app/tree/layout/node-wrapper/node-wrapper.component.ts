@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { NodeService } from '../../core/node/node.service';
+import { TemplatesService, TreeNodeContext } from '../../core/templates.service';
 import { INodeState } from '../../models/node.state';
 
 @Component({
@@ -9,15 +10,22 @@ import { INodeState } from '../../models/node.state';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NodeWrapperComponent implements OnInit {
+  template!: TemplateRef<TreeNodeContext> | null;
+  context!: TreeNodeContext;
 
   @Input() node!: INodeState;
-  constructor(private nodeService: NodeService) { }
+  constructor(private service: NodeService, private templates: TemplatesService) { }
 
   toggleExpand(): void {
-    this.nodeService.toggleFlag('expanded');
+    this.service.toggleFlag('expanded');
   }
 
   ngOnInit(): void {
+    this.template = this.templates.getTemplate('wrapper');
+    this.context = {
+      node: this.service.get(),
+      templates: this.templates.getAllTemplates()
+    }
   }
 
 }

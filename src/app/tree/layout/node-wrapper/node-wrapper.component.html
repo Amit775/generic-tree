@@ -1,7 +1,11 @@
-<div class="tree-node-wrapper" [style.padding-left]="(node.path.length) * 8 + 'px'">
+<div *ngIf="!template" class="tree-node-wrapper" [style.padding-left]="(node.path.length) * 8 + 'px'">
   <tree-node-indicators [node]="node"></tree-node-indicators>
   <tree-node-expander [node]="node" (toggled)="toggleExpand()"></tree-node-expander>
   <div class="tree-node-content-wrapper">
     <tree-node-content></tree-node-content>
   </div>
 </div>
+<ng-container
+  [ngTemplateOutlet]="template"
+  [ngTemplateOutletContext]="context"
+></ng-container>

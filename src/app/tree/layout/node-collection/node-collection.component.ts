@@ -21,5 +21,4 @@ export class NodeCollectionComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
   }
-
 }

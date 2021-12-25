@@ -1,4 +1,7 @@
 <div class="tree-node-content">
-    <ng-container [ngTemplateOutlet]="this.template" [ngTemplateOutletContext]="this.context">
+    <ng-container *ngIf="!template">
+        <span> {{ node.data.display }} </span>
+    </ng-container>
+    <ng-container [ngTemplateOutlet]="template" [ngTemplateOutletContext]="context">
     </ng-container>
 </div>

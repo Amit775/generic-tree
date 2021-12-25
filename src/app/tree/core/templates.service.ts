@@ -46,6 +46,15 @@ export class TemplatesService {
     }
 
     public setTemplates(templates: Partial<TreeNodeTemplates>): void {
+        if (this.comparer(this._templates.value, templates)) return;
+
         this._templates.next({ ...this._templates.value, ...templates });
+    }
+
+    private comparer(old: Partial<TreeNodeTemplates>, news: Partial<TreeNodeTemplates>): boolean {
+        return old.full === news.full &&
+            old.content === news.content &&
+            old.loading === news.loading &&
+            old.wrapper === news.wrapper;
     }
 }
