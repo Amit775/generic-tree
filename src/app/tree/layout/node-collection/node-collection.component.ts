@@ -22,6 +22,5 @@ export class NodeCollectionComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.template = this.templates.getTemplate('full');
-    console.log(this.template);
   }
 }

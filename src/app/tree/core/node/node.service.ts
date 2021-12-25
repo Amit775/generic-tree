@@ -2,14 +2,18 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Flags } from "../../models/flags.model";
 import { INodeState } from "../../models/node.state";
+import { TreeStore } from "../tree/tree.store";
 import { NodeQuery } from "./node.query";
 import { NodeStore } from "./node.store";
 
 @Injectable()
 export class NodeService {
-    constructor(private query: NodeQuery, private store: NodeStore) { }
+    constructor(private query: NodeQuery, private store: NodeStore, private treeStore: TreeStore) { }
+    private _id!: string;
+    singleFlags: { [flag: keyof Flags]: boolean } = { active: true };
 
     init(id: string): void {
+        this._id = id;
         this.store.id = id;
         this.query.id = id;
     }
@@ -18,17 +22,25 @@ export class NodeService {
         return this.query.get();
     }
 
-    toggleFlag(flag: keyof Flags): void {
-        return this.store.update(node => ({
-            ...node,
-            flags: {
-                ...node.flags,
-                [flag]: !node.flags[flag]
-            }
-        }));
+    toggleFlag(flag: keyof Flags, single: boolean = false): void {
+        if (single) {
+            this.treeStore.update(node => node.flags[flag] === true, this.updateFlag(flag, false))
+        }
+
+        return this.store.update(this.updateFlag(flag, !this.get().flags[flag]));
     }
 
     selectFlag(flag: keyof Flags): Observable<boolean | undefined> {
         return this.query.select(node => node?.flags[flag]);
+    }
+
+    private updateFlag(flag: keyof Flags, value: boolean): (node: INodeState) => INodeState {
+        return (node: INodeState) => ({
+            ...node,
+            flags: {
+                ...node.flags,
+                [flag]: value
+            }
+        })
     }
 }

@@ -17,7 +17,7 @@ export class NodeStore {
         return this._id;
     }
     
-    constructor(private store: TreeStore) { }
+    constructor(public store: TreeStore) { }
 
     update(updatefn: UpdateStateCallback<INodeState>): void;
     update(update: Partial<INodeState>): void;

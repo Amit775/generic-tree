@@ -1,5 +1,5 @@
 <div class="tree-node-expander" *ngIf="node.children; else placeholder">
-    <button mat-icon-button (click)="toggle()" class="blah" [class.is-expanded]="isExpanded$ | async">
+    <button mat-icon-button class="blah" [class.is-expanded]="isExpanded$ | async">
         <mat-icon>chevron_right</mat-icon>
     </button>
 </div>
