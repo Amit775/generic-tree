@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
+import { NodeService } from '../../core/node/node.service';
 import { INodeState } from '../../models/node.state';
-import { NodeService } from '../node/node.service';
 
 @Component({
   selector: 'tree-node-expander',
@@ -14,7 +14,7 @@ export class NodeExpanderComponent implements OnInit {
   @Input() node!: INodeState;
   @Output() toggled = new EventEmitter<void>();
 
-  isExpanded$!: Observable<boolean>;
+  isExpanded$!: Observable<boolean | undefined>;
 
   constructor(private service: NodeService) { }
 

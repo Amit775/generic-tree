@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { NodeService } from '../../core/node/node.service';
 import { TreeQuery } from '../../core/tree/tree.query';
 import { INodeState } from '../../models/node.state';
-import { NodeService } from '../node/node.service';
 
 @Component({
   selector: 'tree-node-children',

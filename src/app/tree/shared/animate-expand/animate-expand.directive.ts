@@ -1,5 +1,4 @@
 import { Directive, Input, TemplateRef, ViewContainerRef } from "@angular/core";
-import { NodeService } from "../../layout/node/node.service";
 
 @Directive({
     selector: '[animateExpand]'

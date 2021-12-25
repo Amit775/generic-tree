@@ -1,13 +1,15 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { NodeQuery } from '../../core/node/node.query';
+import { NodeService } from '../../core/node/node.service';
+import { NodeStore } from '../../core/node/node.store';
 import { INodeState } from '../../models/node.state';
-import { NodeService } from './node.service';
 
 @Component({
   selector: 'tree-node',
   templateUrl: './node.component.html',
   styleUrls: ['./node.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [NodeService]
+  providers: [NodeService, NodeQuery, NodeStore]
 })
 export class NodeComponent implements OnInit, AfterViewInit {
 

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { NodeService } from '../../core/node/node.service';
 import { INodeState } from '../../models/node.state';
-import { NodeService } from '../node/node.service';
 
 @Component({
   selector: 'tree-node-wrapper',
@@ -14,7 +14,7 @@ export class NodeWrapperComponent implements OnInit {
   constructor(private nodeService: NodeService) { }
 
   toggleExpand(): void {
-    this.nodeService.toggleExpand();
+    this.nodeService.toggleFlag('expanded');
   }
 
   ngOnInit(): void {

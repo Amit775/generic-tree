@@ -21,6 +21,7 @@ const nullTreeNodeTemplates: TreeNodeTemplates = {
     wrapper: null,
     full: null
 }
+
 @Injectable({ providedIn: 'root' })
 export class TemplatesService {
     private _templates: BehaviorSubject<TreeNodeTemplates> = new BehaviorSubject(nullTreeNodeTemplates);
