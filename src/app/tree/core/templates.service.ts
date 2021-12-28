@@ -4,7 +4,7 @@ import { INodeState } from "../models/node.state";
 
 
 export interface TreeNodeContext {
-    node: INodeState;
+    node$: Observable<INodeState>;
 }
 
 export interface TreeNodeTemplates {

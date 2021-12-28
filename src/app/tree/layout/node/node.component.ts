@@ -1,4 +1,5 @@
-import { AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, Component, Input, OnInit, TemplateRef } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, Input, OnInit, TemplateRef } from '@angular/core';
+import { tap } from 'rxjs';
 import { NodeQuery } from '../../core/node/node.query';
 import { NodeService } from '../../core/node/node.service';
 import { NodeStore } from '../../core/node/node.store';
@@ -12,24 +13,29 @@ import { INodeState } from '../../models/node.state';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [NodeService, NodeQuery, NodeStore]
 })
-export class NodeComponent implements OnInit, AfterViewInit, AfterViewChecked {
+export class NodeComponent implements OnInit, AfterViewInit, AfterViewChecked, DoCheck {
   template!: TemplateRef<TreeNodeContext> | null;
   context!: TreeNodeContext;
 
   @Input() node!: INodeState;
+  private _isDirty: boolean = true;
 
-  constructor(private service: NodeService, private templates: TemplatesService) { }
+  constructor(private service: NodeService, private templates: TemplatesService, private cdr: ChangeDetectorRef) { }
 
   ngAfterViewChecked(): void {
-    console.log('check node', this.node.id);
   }
 
+  ngDoCheck(): void {
+
+  }
   ngOnInit(): void {
     this.service.init(this.node.id);
     this.template = this.templates.getTemplate('full');
-    this.context = { node: this.service.get() }
+    this.context = { node$: this.service.selectNode() }
   }
 
-  ngAfterViewInit(): void { }
+  ngAfterViewInit(): void {
+    // this.cdr.detach();
+  }
 
 }

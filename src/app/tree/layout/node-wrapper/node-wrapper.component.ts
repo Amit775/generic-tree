@@ -34,7 +34,7 @@ export class NodeWrapperComponent implements OnInit {
 
   ngOnInit(): void {
     this.template = this.templates.getTemplate('wrapper');
-    this.context = { node: this.service.get() };
+    this.context = { node$: this.service.selectNode() };
     this.isActive$ = this.service.selectFlag('active');
   }
 

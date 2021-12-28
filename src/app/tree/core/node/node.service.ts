@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { applyTransaction } from "@datorama/akita";
-import { Observable } from "rxjs";
+import { applyTransaction, distinctUntilArrayItemChanged } from "@datorama/akita";
+import { map, mapTo, merge, Observable, of, shareReplay, switchMap, switchMapTo, tap } from "rxjs";
 import { Flags } from "../../models/flags.model";
 import { INodeState } from "../../models/node.state";
 import { TreeStore } from "../tree/tree.store";
@@ -19,8 +19,16 @@ export class NodeService {
         this.query.id = id;
     }
 
-    get(): INodeState {
+    getNode(): INodeState {
         return this.query.get();
+    }
+
+    selectNode(): Observable<INodeState> {
+        return this.query.select();
+    }
+
+    selectNodeWithChildren(): Observable<INodeState[]> {
+        return this.query.select().pipe(map<INodeState, INodeState[]>((node: INodeState) => ([...this.query.query.getChildrenNodes(this._id) ?? [], node])), distinctUntilArrayItemChanged(), shareReplay({ refCount: true }));
     }
 
     toggleFlag(flag: keyof Flags, single: boolean = false): void {
@@ -29,7 +37,7 @@ export class NodeService {
                 this.treeStore.update(node => node.flags[flag] === true, this.updateFlag(flag, false))
             }
 
-            this.store.update(this.updateFlag(flag, !this.get().flags[flag]));
+            this.store.update(this.updateFlag(flag, !this.getNode().flags[flag]));
         });
     }
 

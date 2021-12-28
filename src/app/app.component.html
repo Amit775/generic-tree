@@ -1,7 +1,7 @@
 <tree-root [nodes]="nodes">
-    <ng-template let-node="node" #treeNodeContent>
+    <ng-template let-node$="node$" #treeNodeContent>
         <span>bublil</span>
-        <span> {{ node | json }} </span>
+        <span> {{ node$ | async | json }} </span>
     </ng-template>
 
     <!-- <ng-template let-node="node" #treeNodeFull>
