@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { INodeState } from './tree/models/node.state';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
   title = 'generic-tree';
@@ -59,6 +61,10 @@ export class AppComponent implements OnInit {
     }
 
     return node;
+  }
+
+  drop(event: CdkDragDrop<string[]>): void {
+    console.log(event);
   }
 }
 

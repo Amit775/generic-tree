@@ -3,10 +3,8 @@
     line-height: 40px;
     cursor: pointer;
     transition: background-color 0.4s;
-    background-color: white;
 
-
-    &.active {
+    &.active:not(.drag-over) {
         transition: background-color 0.4s;
         background-color: cornflowerblue;
     }

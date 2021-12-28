@@ -1,6 +1,6 @@
 <div class="tree-node-collection">
-    <ng-container *ngFor="let node of nodes">
-        <tree-node *ngIf="!template" [node]="node"></tree-node>
+    <ng-container *ngFor="let node of nodes; trackBy: trackNode">
+        <tree-node *ngIf="!template" [node]="node"  cdkDrag [cdkDragData]="node.id"></tree-node>
         <ng-container [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{ node: node }"></ng-container>
     </ng-container>
 </div>

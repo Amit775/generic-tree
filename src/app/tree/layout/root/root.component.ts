@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ContentChild, Input, OnInit, TemplateRef } from '@angular/core';
-import { Observable, tap } from 'rxjs';
-import { TemplatesService, TreeNodeContext, TreeNodeTemplates } from '../../core/templates.service';
+import { Observable } from 'rxjs';
+import { TreeNodeContext, TreeNodeTemplates } from '../../core/templates.service';
 import { TreeQuery } from '../../core/tree/tree.query';
 import { TreeService } from '../../core/tree/tree.service';
 import { INodeState } from '../../models/node.state';

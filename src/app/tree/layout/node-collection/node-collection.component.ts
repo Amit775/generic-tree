@@ -1,5 +1,8 @@
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { TemplatesService, TreeNodeTemplates } from '../../core/templates.service';
+import { TreeQuery } from '../../core/tree/tree.query';
 import { INodeState } from '../../models/node.state';
 
 @Component({
@@ -10,6 +13,7 @@ import { INodeState } from '../../models/node.state';
 })
 export class NodeCollectionComponent implements OnInit, AfterViewInit {
   template: TreeNodeTemplates['full'] | null = null;
+  parent$!: Observable<INodeState>;
 
   @Input('templates') set templatesInput(value: TreeNodeTemplates | undefined) {
     if (!value) return;
@@ -18,9 +22,19 @@ export class NodeCollectionComponent implements OnInit, AfterViewInit {
 
   @Input() nodes: INodeState[] | null = [];
   ngAfterViewInit(): void { }
-  constructor(private templates: TemplatesService) { }
+  constructor(private templates: TemplatesService, private treeQuery: TreeQuery) { }
 
   ngOnInit(): void {
     this.template = this.templates.getTemplate('full');
+    this.parent$ = this.treeQuery.selectParentNode(this.nodes?.[0].id || '') as Observable<INodeState>;
+  }
+
+  trackNode(index: number, node: INodeState): string {
+    return node.id;
+  }
+
+  drop(event: CdkDragDrop<INodeState>): void {
+    console.log(event.container.data);
+    console.log(event);
   }
 }

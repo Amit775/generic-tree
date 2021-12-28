@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnInit, TemplateRef } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { NodeQuery } from '../../core/node/node.query';
 import { NodeService } from '../../core/node/node.service';
 import { NodeStore } from '../../core/node/node.store';
@@ -12,13 +12,17 @@ import { INodeState } from '../../models/node.state';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [NodeService, NodeQuery, NodeStore]
 })
-export class NodeComponent implements OnInit, AfterViewInit {
+export class NodeComponent implements OnInit, AfterViewInit, AfterViewChecked {
   template!: TemplateRef<TreeNodeContext> | null;
   context!: TreeNodeContext;
 
   @Input() node!: INodeState;
 
   constructor(private service: NodeService, private templates: TemplatesService) { }
+
+  ngAfterViewChecked(): void {
+    console.log('check node', this.node.id);
+  }
 
   ngOnInit(): void {
     this.service.init(this.node.id);

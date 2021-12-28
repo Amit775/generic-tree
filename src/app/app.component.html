@@ -4,9 +4,18 @@
         <span> {{ node | json }} </span>
     </ng-template>
 
-    <ng-template let-node="node" #treeNodeFull>
-        <tree-node [node]="node">
+    <!-- <ng-template let-node="node" #treeNodeFull>
+        <tree-node [node]="node" cdkDrag [cdkDragData]="node.id">
             <tree-node-content></tree-node-content>
         </tree-node>
-    </ng-template>
+    </ng-template> -->
 </tree-root>
+<!-- <div cdkDropList (cdkDropListDropped)="drop($event)">
+
+    <div *ngFor="let item of nodes" cdkDrag>
+        <div class="mine-tooltip" *cdkDragPreview>
+            {{ item.data.display }}
+        </div>
+        {{ item | json}}
+    </div>
+</div> -->

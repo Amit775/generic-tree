@@ -37,7 +37,7 @@ export class NodeService {
         return this.query.select(node => node?.flags[flag]);
     }
 
-    withSingleTick<T>(action: () => T): T {
+    WithinSingleUpdate<T>(action: () => T): T {
         return applyTransaction(action);
     }
 

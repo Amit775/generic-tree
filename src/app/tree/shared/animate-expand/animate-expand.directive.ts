@@ -1,4 +1,4 @@
-import { Directive, Input, TemplateRef, ViewContainerRef } from "@angular/core";
+import { Directive, EmbeddedViewRef, Input, TemplateRef, ViewContainerRef } from "@angular/core";
 
 @Directive({
     selector: '[animateExpand]'
@@ -15,7 +15,7 @@ export class AnimateExpandDirective<T> {
         return this._isExpanded;
     }
 
-    private _innerElement: HTMLElement | undefined;
+    private _innerElement: EmbeddedViewRef<T> | null = null;
 
     constructor(
         private templateRef: TemplateRef<T>,
@@ -23,13 +23,15 @@ export class AnimateExpandDirective<T> {
     ) { }
 
     private _show(): void {
-        if (this._innerElement) return;
+        if (this._innerElement != null) return;
 
-        this._innerElement = this.viewContainerRef.createEmbeddedView(this.templateRef).rootNodes[0];
+        this._innerElement = this.viewContainerRef.createEmbeddedView(this.templateRef);
     }
 
     private _hide(): void {
+        if (this._innerElement == null) return;
+        console.log('clear');
         this.viewContainerRef.clear();
-        this._innerElement = undefined;
+        this._innerElement = null;
     }
 }

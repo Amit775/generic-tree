@@ -1,11 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { INodeState } from '../../models/node.state';
 import { IIndicator } from './node-indicator/node-indicator.component';
 
 @Component({
   selector: 'tree-node-indicators',
   templateUrl: './node-indicators.component.html',
-  styleUrls: ['./node-indicators.component.scss']
+  styleUrls: ['./node-indicators.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NodeIndicatorsComponent implements OnInit {
 

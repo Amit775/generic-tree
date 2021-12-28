@@ -23,7 +23,7 @@ export class NodeWrapperComponent implements OnInit {
   }
 
   toggleActive(event: MouseEvent): void {
-    this.service.withSingleTick(() => {
+    this.service.WithinSingleUpdate(() => {
       const multiple = event.ctrlKey;
       this.service.toggleFlag('active', !multiple);
       if (!multiple && this.node.children != null) {

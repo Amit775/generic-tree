@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { NodeDragDropModule } from './features/node-drag-drop/node-drag-drop.module';
 import { NodeChildrenComponent } from './layout/node-children/node-children.component';
 import { NodeCollectionComponent } from './layout/node-collection/node-collection.component';
 import { NodeContentComponent } from './layout/node-content/node-content.component';
@@ -28,7 +29,8 @@ import { MaterialModule } from './shared/material/material.module';
   ],
   imports: [
     CommonModule,
-    MaterialModule
+    MaterialModule,
+    NodeDragDropModule
   ],
   exports: [
     RootComponent,
