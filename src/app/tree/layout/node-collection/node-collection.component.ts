@@ -1,6 +1,6 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { TemplatesService, TreeNodeTemplates } from '../../core/templates.service';
 import { TreeQuery } from '../../core/tree/tree.query';
 import { INodeState } from '../../models/node.state';
@@ -14,6 +14,7 @@ import { INodeState } from '../../models/node.state';
 export class NodeCollectionComponent implements OnInit, AfterViewInit {
   template: TreeNodeTemplates['full'] | null = null;
   parent$!: Observable<INodeState>;
+  ids$!: Observable<string[]>;
 
   @Input('templates') set templatesInput(value: TreeNodeTemplates | undefined) {
     if (!value) return;
@@ -27,14 +28,36 @@ export class NodeCollectionComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.template = this.templates.getTemplate('full');
     this.parent$ = this.treeQuery.selectParentNode(this.nodes?.[0].id || '') as Observable<INodeState>;
+    this.ids$ = this.treeQuery.selectAll().pipe(map(nodes => nodes.map(node => node.id)));
   }
 
   trackNode(index: number, node: INodeState): string {
     return node.id;
   }
 
-  drop(event: CdkDragDrop<INodeState>): void {
+  drop(event: CdkDragDrop<string[]>): void {
     console.log(event.container.data);
     console.log(event);
+  }
+
+  public nodesHeight$(root: INodeState): Observable<string> {
+    return this.treeQuery.selectEntity(root.id).pipe(
+      map((node: INodeState | undefined) => this.countVisibleChildren(node)),
+      tap(x => console.log(x, root)),
+      map((decendentVisibleCount: number) => `${(decendentVisibleCount + 1) * 40}px`)
+    );
+  }
+
+  private countVisibleChildren(node: INodeState | undefined): number {
+    if (node == null || node.flags.expanded === false || node.children == null) return 0;
+    return node.children.reduce((sum: number, child: INodeState) => sum += this.countVisibleChildren(child) ?? 0, 0);
+  }
+
+  public totalHeight$(): Observable<string> {
+    return this.treeQuery.selectAll({ filterBy: node => node.path.length === 0 }).pipe(
+      map(roots => roots.reduce((sum: number, child: INodeState) => sum += this.countVisibleChildren(child) ?? 0, 0)),
+      tap(x => console.log(x)),
+      map((decendentVisibleCount: number) => `${(decendentVisibleCount + 1) * 40}px`)
+    )
   }
 }

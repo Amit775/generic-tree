@@ -4,7 +4,7 @@ import { Flags } from "./flags.model";
 
 export interface INodeState<T = any> {
     id: string;
-    children?: string[];
+    children?: INodeState[];
     path: string[];
     flags: Partial<Flags>;
     indexInParent: number;

@@ -1,6 +1,8 @@
-<div class="tree-node-collection">
-    <ng-container *ngFor="let node of nodes; trackBy: trackNode">
-        <tree-node *ngIf="!template" [node]="node"  cdkDrag [cdkDragData]="node.id"></tree-node>
+<mat-list dense class="tree-node-collection">
+    <mat-list-item *ngFor="let node of nodes; trackBy: trackNode">
+        <tree-node *ngIf="!template" [node]="node">
+            <div class="mine-tooltip" *cdkDragPreview> {{ node.data.display }} </div>
+        </tree-node>
         <ng-container [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{ node: node }"></ng-container>
-    </ng-container>
-</div>
+    </mat-list-item>
+</mat-list>

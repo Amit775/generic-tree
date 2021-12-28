@@ -2,6 +2,10 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { INodeState } from './tree/models/node.state';
 
+interface NodeData {
+  display: string;
+  children?: NodeData[]
+}
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,11 +16,16 @@ export class AppComponent implements OnInit {
   title = 'generic-tree';
 
   nodes: INodeState[] = [];
+  roots: INodeState[] = [];
+  dropLists: string[] = [];
   ngOnInit(): void {
     this.nodes = this.convertNodes(this.nodesData);
+    this.roots = this.nodes.filter(node => node.path.length == 0);
+    this.dropLists = this.nodes.filter(node => node.children?.length != null).map(node => node.id).concat('root');
+    console.log(this.dropLists)
   }
 
-  nodesData: any[] = [
+  nodesData: NodeData[] = [
     { display: 'a' },
     {
       display: 'b',
@@ -34,6 +43,17 @@ export class AppComponent implements OnInit {
       ],
     },
   ];
+
+  // nodesData: NodeData[] = [
+  //   { display: 'a', children: [{ display: 'child' }] },
+  //   { display: 'b' },
+  //   { display: 'ba' },
+  //   { display: 'bb' },
+  //   { display: 'bba' },
+  //   { display: 'bbb' },
+  //   { display: 'bbc' },
+  //   { display: 'bc' },
+  // ];
 
   convertNodes(datas: any[]): INodeState[] {
     const nodes: INodeState[] = []
@@ -57,13 +77,13 @@ export class AppComponent implements OnInit {
     if (data.children) {
       const childrenNodes: INodeState[] = data.children.map((childData: any, childIndex: number) => this.convert(nodes, childData, childIndex, node));
       nodes = [...nodes, ...childrenNodes];
-      node.children = childrenNodes.map(child => child.id);
+      node.children = childrenNodes;
     }
 
     return node;
   }
 
-  drop(event: CdkDragDrop<string[]>): void {
+  drop(event: CdkDragDrop<string>): void {
     console.log(event);
   }
 }

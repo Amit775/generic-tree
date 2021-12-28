@@ -13,16 +13,11 @@ export class TreeQuery extends QueryEntity<ITreeState, INodeState, string> {
     }
 
     selectChildrenNodes(id: string): Observable<INodeState[]> {
-        return this.selectEntity(id, (node) => node?.children).pipe(
-            filter((childrenIds) => childrenIds != null),
-            switchMap((childrenIds) => this.selectMany(childrenIds!))
-        );
+        return this.selectEntity(id, (node) => node?.children ?? []);
     }
 
     getChildrenNodes(id: string): INodeState[] | undefined {
-        return this.getEntity(id)
-            ?.children?.map((childId) => this.getEntity(childId)!)
-            .filter(Boolean);
+        return this.getEntity(id)?.children;
     }
 
     selectParentNode(id: string): Observable<INodeState | undefined> {

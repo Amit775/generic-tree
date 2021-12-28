@@ -1,8 +1,10 @@
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ContentChild, Input, OnInit, TemplateRef } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TreeNodeContext, TreeNodeTemplates } from '../../core/templates.service';
 import { TreeQuery } from '../../core/tree/tree.query';
 import { TreeService } from '../../core/tree/tree.service';
+import { NodeDragDropService } from '../../features/node-drag-drop/node-drop-slot/node-drag-drop.service';
 import { INodeState } from '../../models/node.state';
 
 @Component({
@@ -31,7 +33,7 @@ export class RootComponent implements OnInit, AfterViewInit {
 
   @Input() nodes: INodeState[] = [];
 
-  constructor(private service: TreeService, private query: TreeQuery) { }
+  constructor(private service: TreeService, private query: TreeQuery, private dragService: NodeDragDropService) { }
   roots$: Observable<INodeState[]> = this.query.selectAll({ filterBy: node => node.path.length === 0 });
 
   ngOnInit(): void {
@@ -43,5 +45,7 @@ export class RootComponent implements OnInit, AfterViewInit {
     return nodes;
   }
 
-
+  onDrop(event: CdkDragDrop<INodeState[]>): void {
+    this.dragService.onDragDrop(event);
+  }
 }

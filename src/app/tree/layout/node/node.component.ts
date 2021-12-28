@@ -1,9 +1,11 @@
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, Input, OnInit, TemplateRef } from '@angular/core';
 import { tap } from 'rxjs';
 import { NodeQuery } from '../../core/node/node.query';
 import { NodeService } from '../../core/node/node.service';
 import { NodeStore } from '../../core/node/node.store';
 import { TemplatesService, TreeNodeContext } from '../../core/templates.service';
+import { NodeDragDropService } from '../../features/node-drag-drop/node-drop-slot/node-drag-drop.service';
 import { INodeState } from '../../models/node.state';
 
 @Component({
@@ -20,7 +22,12 @@ export class NodeComponent implements OnInit, AfterViewInit, AfterViewChecked, D
   @Input() node!: INodeState;
   private _isDirty: boolean = true;
 
-  constructor(private service: NodeService, private templates: TemplatesService, private cdr: ChangeDetectorRef) { }
+  constructor(
+    private service: NodeService, 
+    private templates: TemplatesService, 
+    private cdr: ChangeDetectorRef,
+    private dragService: NodeDragDropService
+    ) { }
 
   ngAfterViewChecked(): void {
   }
@@ -38,4 +45,7 @@ export class NodeComponent implements OnInit, AfterViewInit, AfterViewChecked, D
     // this.cdr.detach();
   }
 
+  onDrop(event: CdkDragDrop<any>): void {
+    this.dragService.onDragDrop(event);
+  }
 }

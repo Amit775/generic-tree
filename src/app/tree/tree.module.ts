@@ -12,6 +12,7 @@ import { NodeComponent } from './layout/node/node.component';
 import { RootComponent } from './layout/root/root.component';
 import { AnimateExpandDirective } from './shared/animate-expand/animate-expand.directive';
 import { MaterialModule } from './shared/material/material.module';
+import { TypePipe } from './shared/type.pipe';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { MaterialModule } from './shared/material/material.module';
     NodeCollectionComponent,
     NodeChildrenComponent,
     AnimateExpandDirective,
-    NodeIndicatorsComponent
+    NodeIndicatorsComponent,
+    TypePipe
   ],
   imports: [
     CommonModule,
@@ -36,7 +38,8 @@ import { MaterialModule } from './shared/material/material.module';
     RootComponent,
     NodeContentComponent,
     NodeComponent,
-    NodeWrapperComponent
+    NodeWrapperComponent,
+    TypePipe
   ]
 })
 export class TreeModule { }
