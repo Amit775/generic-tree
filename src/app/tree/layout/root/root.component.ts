@@ -1,6 +1,6 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ContentChild, Input, OnInit, TemplateRef } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { TreeNodeContext, TreeNodeTemplates } from '../../core/templates.service';
 import { TreeQuery } from '../../core/tree/tree.query';
 import { TreeService } from '../../core/tree/tree.service';
@@ -34,10 +34,23 @@ export class RootComponent implements OnInit, AfterViewInit {
   @Input() nodes: INodeState[] = [];
 
   constructor(private service: TreeService, private query: TreeQuery, private dragService: NodeDragDropService) { }
-  roots$: Observable<INodeState[]> = this.query.selectAll({ filterBy: node => node.path.length === 0 });
+  roots$!: Observable<INodeState[]>;
+  virtualRoot$!: Observable<INodeState>;
 
   ngOnInit(): void {
     this.service.setNodes(this.removeChildren(this.nodes));
+    this.query.selectAll().subscribe(console.log);
+    this.roots$ = this.query.selectAll({ filterBy: node => node.path.length === 1 });
+    this.virtualRoot$ = this.roots$.pipe(
+      map(roots => ({
+        data: { virtual: true },
+        path: [],
+        id: 'root',
+        flags: {},
+        children: roots
+      }) as INodeState)
+    );
+    this.virtualRoot$.subscribe(console.log);
   }
 
   removeChildren(nodes: INodeState[]): INodeState[] {
@@ -45,7 +58,7 @@ export class RootComponent implements OnInit, AfterViewInit {
     return nodes;
   }
 
-  onDrop(event: CdkDragDrop<INodeState[]>): void {
+  onDrop(event: CdkDragDrop<INodeState>): void {
     this.dragService.onDragDrop(event);
   }
 }

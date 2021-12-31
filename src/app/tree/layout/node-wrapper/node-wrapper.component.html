@@ -1,4 +1,4 @@
-<div *ngIf="!template" class="tree-node-wrapper" [style.padding-left]="(node.path.length) * 24 + 'px'"
+<div *ngIf="!template" class="tree-node-wrapper" [style.padding-left]="(node$ | async)!.path.length * 24 + 'px'"
   [class.active]="isActive$ | async" (click)="toggleActive($event)">
   <tree-node-indicators [node]="node"></tree-node-indicators>
   <tree-node-expander [node]="node"></tree-node-expander>

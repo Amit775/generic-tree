@@ -1,4 +1,4 @@
-<div class="tree-node" cdkDrag cdkDropListLockAxis="y">
+<div class="tree-node" cdkDrag [cdkDragData]="node" cdkDropListLockAxis="y">
     <tree-node-wrapper [node]="node"></tree-node-wrapper>
     <tree-node-children [node]="node"></tree-node-children>
 </div>

@@ -18,14 +18,17 @@ export class NodeChildrenComponent implements OnInit {
   constructor(private query: TreeQuery, private service: NodeService, private dragService: NodeDragDropService) { }
 
   children$!: Observable<INodeState[]>;
+  node$!: Observable<INodeState>;
   isExpanded$!: Observable<boolean | undefined>;
 
   ngOnInit(): void {
     this.children$ = this.query.selectChildrenNodes(this.node?.id);
+    this.node$ = this.service.selectNode();
     this.isExpanded$ = this.service.selectFlag('expanded');
+    this.query.selectEntity(this.node.id).subscribe(x => console.log('id', x!.id, 'children', x?.children))
   }
 
-  onDrop(event: CdkDragDrop<INodeState[]>) {
+  onDrop(event: CdkDragDrop<INodeState>) {
         this.dragService.onDragDrop(event);
   }
 

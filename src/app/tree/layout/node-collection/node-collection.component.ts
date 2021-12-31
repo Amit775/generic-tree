@@ -13,7 +13,6 @@ import { INodeState } from '../../models/node.state';
 })
 export class NodeCollectionComponent implements OnInit, AfterViewInit {
   template: TreeNodeTemplates['full'] | null = null;
-  parent$!: Observable<INodeState>;
   ids$!: Observable<string[]>;
 
   @Input('templates') set templatesInput(value: TreeNodeTemplates | undefined) {
@@ -21,14 +20,14 @@ export class NodeCollectionComponent implements OnInit, AfterViewInit {
     this.templates.setTemplates(value);
   }
 
-  @Input() nodes: INodeState[] | null = [];
+  @Input() parent!: INodeState;
   ngAfterViewInit(): void { }
   constructor(private templates: TemplatesService, private treeQuery: TreeQuery) { }
 
   ngOnInit(): void {
     this.template = this.templates.getTemplate('full');
-    this.parent$ = this.treeQuery.selectParentNode(this.nodes?.[0].id || '') as Observable<INodeState>;
     this.ids$ = this.treeQuery.selectAll().pipe(map(nodes => nodes.map(node => node.id)));
+    console.log(this.parent)
   }
 
   trackNode(index: number, node: INodeState): string {

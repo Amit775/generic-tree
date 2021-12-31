@@ -7,7 +7,6 @@ export interface INodeState<T = any> {
     children?: INodeState[];
     path: string[];
     flags: Partial<Flags>;
-    indexInParent: number;
     data: T;
     indicators?: IIndicator[];
     service?: NodeService;

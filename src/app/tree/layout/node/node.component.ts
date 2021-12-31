@@ -20,12 +20,10 @@ export class NodeComponent implements OnInit, AfterViewInit, AfterViewChecked, D
   context!: TreeNodeContext;
 
   @Input() node!: INodeState;
-  private _isDirty: boolean = true;
 
   constructor(
     private service: NodeService, 
     private templates: TemplatesService, 
-    private cdr: ChangeDetectorRef,
     private dragService: NodeDragDropService
     ) { }
 
@@ -42,7 +40,6 @@ export class NodeComponent implements OnInit, AfterViewInit, AfterViewChecked, D
   }
 
   ngAfterViewInit(): void {
-    // this.cdr.detach();
   }
 
   onDrop(event: CdkDragDrop<any>): void {

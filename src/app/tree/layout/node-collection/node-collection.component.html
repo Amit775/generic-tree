@@ -1,5 +1,5 @@
 <mat-list dense class="tree-node-collection">
-    <mat-list-item *ngFor="let node of nodes; trackBy: trackNode">
+    <mat-list-item *ngFor="let node of parent.children; trackBy: trackNode">
         <tree-node *ngIf="!template" [node]="node">
             <div class="mine-tooltip" *cdkDragPreview> {{ node.data.display }} </div>
         </tree-node>

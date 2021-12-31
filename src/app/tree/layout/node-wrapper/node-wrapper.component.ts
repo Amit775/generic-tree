@@ -14,6 +14,7 @@ export class NodeWrapperComponent implements OnInit {
   template!: TemplateRef<TreeNodeContext> | null;
   context!: TreeNodeContext;
   isActive$!: Observable<boolean | undefined>;
+  node$!: Observable<INodeState>;
 
   @Input() node!: INodeState;
   constructor(private service: NodeService, private templates: TemplatesService) { }
@@ -36,6 +37,7 @@ export class NodeWrapperComponent implements OnInit {
     this.template = this.templates.getTemplate('wrapper');
     this.context = { node$: this.service.selectNode() };
     this.isActive$ = this.service.selectFlag('active');
+    this.node$ = this.service.selectNode();
   }
 
 }

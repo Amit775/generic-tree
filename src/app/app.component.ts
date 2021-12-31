@@ -17,12 +17,9 @@ export class AppComponent implements OnInit {
 
   nodes: INodeState[] = [];
   roots: INodeState[] = [];
-  dropLists: string[] = [];
   ngOnInit(): void {
     this.nodes = this.convertNodes(this.nodesData);
-    this.roots = this.nodes.filter(node => node.path.length == 0);
-    this.dropLists = this.nodes.filter(node => node.children?.length != null).map(node => node.id).concat('root');
-    console.log(this.dropLists)
+    this.roots = this.nodes.filter(node => node.path.length == 1);
   }
 
   nodesData: NodeData[] = [
@@ -59,6 +56,7 @@ export class AppComponent implements OnInit {
     const nodes: INodeState[] = []
 
     datas.map((data, index) => this.convert(nodes, data, index, undefined));
+    console.log(nodes);
 
     return nodes;
   }
@@ -66,8 +64,7 @@ export class AppComponent implements OnInit {
   convert(nodes: INodeState[], data: any, index: number, parent?: INodeState | undefined): INodeState {
     const node: INodeState = {
       data,
-      indexInParent: index,
-      path: parent ? [...parent.path, parent.id] : [],
+      path: parent ? [...parent.path, parent.id] : ['root'],
       flags: {},
       id: uuid()
     }
