@@ -1,4 +1,4 @@
-<tree-root [nodes]="nodes">
+<tree-root [dataSource]="nodesData">
     <ng-template let-node$="node$" #treeNodeContent>
         <span>bublil</span>
         <span> {{ (node$ | async | type )['data']['display'] }} </span>

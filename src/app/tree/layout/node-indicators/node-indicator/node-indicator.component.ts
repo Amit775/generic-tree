@@ -1,39 +1,30 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NodeQuery } from 'src/app/tree/core/node/node.query';
-import { Flags } from 'src/app/tree/models/flags.model';
-import { ITreeState } from 'src/app/tree/models/tree.state';
+import { IIndicator } from 'src/app/tree/models/indicator.model';
 import { INodeState } from '../../../models/node.state';
 
-export interface IIndicator {
-  flag: keyof Flags;
-  onIcon?: string;
-  offIcon?: string;
-  onAction?: (node: INodeState, state: ITreeState) => void;
-  offAction?: (node: INodeState, state: ITreeState) => void;
-}
-
 @Component({
-  selector: 'tree-node-indicator',
-  templateUrl: './node-indicator.component.html',
-  styleUrls: ['./node-indicator.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+	selector: 'tree-node-indicator',
+	templateUrl: './node-indicator.component.html',
+	styleUrls: ['./node-indicator.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NodeIndicatorComponent implements OnInit {
 
-  @Input() node!: INodeState;
-  @Input() indicator!: IIndicator;
-  
-  @Output() toggled = new EventEmitter();
-  
-  constructor(private query: NodeQuery) { }
-  flag$!: Observable<boolean>;
-  
-  ngOnInit(): void {
-    this.flag$ = this.query.select(node => node?.flags[this.indicator.flag] == true);
-  }
+	@Input() node!: INodeState;
+	@Input() indicator!: IIndicator;
 
-  toggle(): void {
-    this.toggled.emit();
-  }
+	@Output() toggled = new EventEmitter();
+
+	constructor(private query: NodeQuery) { }
+	flag$!: Observable<boolean>;
+
+	ngOnInit(): void {
+		this.flag$ = this.query.select(node => node?.flags[this.indicator.flag] == true);
+	}
+
+	toggle(): void {
+		this.toggled.emit();
+	}
 }

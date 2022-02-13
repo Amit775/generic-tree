@@ -21,21 +21,14 @@ export class TreeQuery extends QueryEntity<ITreeState, INodeState, string> {
     }
 
     selectParentNode(id: string): Observable<INodeState | undefined> {
-        return this.selectEntity(
-            id,
-            (node) => node?.path[node.path.length - 1]
-        ).pipe(
-            filter((parentId) => parentId != null),
-            switchMap((parentId) => this.selectEntity(parentId!))
-        );
+        return this.selectEntity(id, (node) => node?.path[node.path.length - 1])
     }
 
     getParentNode(id: string): INodeState | undefined {
         const node = this.getEntity(id);
         if (node == null) return undefined;
 
-        const parentId = node.path[node.path.length - 1];
-        return this.getEntity(parentId);
+        return node.path[node.path.length - 1];
     }
 
     getNodesWithFlag(flag: keyof Flags, value: boolean = true): INodeState[] {

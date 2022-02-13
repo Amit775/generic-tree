@@ -14,7 +14,6 @@ export class NodeDragDropService {
 
     public register(id: string): void {
         this._dragAndDrops.next([...this._dragAndDrops.value, id]);
-        console.log('registered: ', this._dragAndDrops.value);
     }
     public unregister(id: string): void {
         this._dragAndDrops.next(this._dragAndDrops.value.filter(x => x !== id));
@@ -27,7 +26,7 @@ export class NodeDragDropService {
             this.store.update(draggedNode.data.id,
                 (entity: INodeState) => ({
                     ...entity,
-                    path: [...parent.data.path, parent.data.id]
+                    path: [...parent.data.path, parent.data]
                 })
             );
 

@@ -1,4 +1,3 @@
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NodeService } from '../../core/node/node.service';
@@ -25,11 +24,5 @@ export class NodeChildrenComponent implements OnInit {
     this.children$ = this.query.selectChildrenNodes(this.node?.id);
     this.node$ = this.service.selectNode();
     this.isExpanded$ = this.service.selectFlag('expanded');
-    this.query.selectEntity(this.node.id).subscribe(x => console.log('id', x!.id, 'children', x?.children))
   }
-
-  onDrop(event: CdkDragDrop<INodeState>) {
-        this.dragService.onDragDrop(event);
-  }
-
 }

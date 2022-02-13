@@ -1,11 +1,6 @@
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { INodeState } from './tree/models/node.state';
+import { INodeData } from './tree/layout/root/root.component';
 
-interface NodeData {
-  display: string;
-  children?: NodeData[]
-}
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -15,14 +10,9 @@ interface NodeData {
 export class AppComponent implements OnInit {
   title = 'generic-tree';
 
-  nodes: INodeState[] = [];
-  roots: INodeState[] = [];
-  ngOnInit(): void {
-    this.nodes = this.convertNodes(this.nodesData);
-    this.roots = this.nodes.filter(node => node.path.length == 1);
-  }
+  ngOnInit(): void { }
 
-  nodesData: NodeData[] = [
+  nodesData: INodeData[] = [
     { display: 'a' },
     {
       display: 'b',
@@ -41,7 +31,7 @@ export class AppComponent implements OnInit {
     },
   ];
 
-  // nodesData: NodeData[] = [
+  // nodesData: INodeData[] = [
   //   { display: 'a', children: [{ display: 'child' }] },
   //   { display: 'b' },
   //   { display: 'ba' },
@@ -51,47 +41,4 @@ export class AppComponent implements OnInit {
   //   { display: 'bbc' },
   //   { display: 'bc' },
   // ];
-
-  convertNodes(datas: any[]): INodeState[] {
-    const nodes: INodeState[] = []
-
-    datas.map((data, index) => this.convert(nodes, data, index, undefined));
-    console.log(nodes);
-
-    return nodes;
-  }
-
-  convert(nodes: INodeState[], data: any, index: number, parent?: INodeState | undefined): INodeState {
-    const node: INodeState = {
-      data,
-      path: parent ? [...parent.path, parent.id] : ['root'],
-      flags: {},
-      id: uuid()
-    }
-
-    nodes.push(node);
-
-    if (data.children) {
-      const childrenNodes: INodeState[] = data.children.map((childData: any, childIndex: number) => this.convert(nodes, childData, childIndex, node));
-      nodes = [...nodes, ...childrenNodes];
-      node.children = childrenNodes;
-    }
-
-    return node;
-  }
-
-  drop(event: CdkDragDrop<string>): void {
-    console.log(event);
-  }
-}
-
-let lastid: string;
-function uuid(): string {
-  if (!lastid) {
-    lastid = '0';
-  } else {
-    lastid = `${(+lastid) + 1}`;
-  }
-
-  return lastid;
 }

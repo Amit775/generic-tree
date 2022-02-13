@@ -1,6 +1,4 @@
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, Input, OnInit, TemplateRef } from '@angular/core';
-import { tap } from 'rxjs';
+import { AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, Component, DoCheck, Input, OnInit, TemplateRef } from '@angular/core';
 import { NodeQuery } from '../../core/node/node.query';
 import { NodeService } from '../../core/node/node.service';
 import { NodeStore } from '../../core/node/node.store';
@@ -40,9 +38,5 @@ export class NodeComponent implements OnInit, AfterViewInit, AfterViewChecked, D
   }
 
   ngAfterViewInit(): void {
-  }
-
-  onDrop(event: CdkDragDrop<any>): void {
-    this.dragService.onDragDrop(event);
   }
 }

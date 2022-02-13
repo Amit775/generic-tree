@@ -1,4 +1,3 @@
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { map, Observable, tap } from 'rxjs';
 import { TemplatesService, TreeNodeTemplates } from '../../core/templates.service';
@@ -27,22 +26,15 @@ export class NodeCollectionComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.template = this.templates.getTemplate('full');
     this.ids$ = this.treeQuery.selectAll().pipe(map(nodes => nodes.map(node => node.id)));
-    console.log(this.parent)
   }
 
   trackNode(index: number, node: INodeState): string {
     return node.id;
   }
 
-  drop(event: CdkDragDrop<string[]>): void {
-    console.log(event.container.data);
-    console.log(event);
-  }
-
   public nodesHeight$(root: INodeState): Observable<string> {
     return this.treeQuery.selectEntity(root.id).pipe(
       map((node: INodeState | undefined) => this.countVisibleChildren(node)),
-      tap(x => console.log(x, root)),
       map((decendentVisibleCount: number) => `${(decendentVisibleCount + 1) * 40}px`)
     );
   }
@@ -55,7 +47,6 @@ export class NodeCollectionComponent implements OnInit, AfterViewInit {
   public totalHeight$(): Observable<string> {
     return this.treeQuery.selectAll({ filterBy: node => node.path.length === 0 }).pipe(
       map(roots => roots.reduce((sum: number, child: INodeState) => sum += this.countVisibleChildren(child) ?? 0, 0)),
-      tap(x => console.log(x)),
       map((decendentVisibleCount: number) => `${(decendentVisibleCount + 1) * 40}px`)
     )
   }

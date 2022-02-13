@@ -3,9 +3,7 @@ import { Directive, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
 import { NodeDragDropService } from "./node-drag-drop.service";
 
-@Directive({
-    selector: '[dragAndDropManager]'
-})
+@Directive({ selector: '[dragAndDropManager]' })
 export class dragAndDropManagerDirective implements OnInit, OnDestroy {
     private subscription!: Subscription;
 
@@ -29,6 +27,6 @@ export class dragAndDropManagerDirective implements OnInit, OnDestroy {
 
 @Directive({
     selector: '[dragAndDropManagerRoot]',
-    providers: [{ provide: NodeDragDropService}]
+    providers: [{ provide: NodeDragDropService }]
 })
 export class dragAndDropManagerRootDirective extends dragAndDropManagerDirective { }

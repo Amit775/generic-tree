@@ -3,11 +3,11 @@ import { IIndicator } from "../layout/node-indicators/node-indicator/node-indica
 import { Flags } from "./flags.model";
 
 export interface INodeState<T = any> {
-    id: string;
-    children?: INodeState[];
-    path: string[];
-    flags: Partial<Flags>;
-    data: T;
-    indicators?: IIndicator[];
-    service?: NodeService;
-  }
+	id: string;
+	children?: INodeState[];
+	path: INodeState[];
+	flags: Partial<Flags>;
+	data: T;
+	indicators?: IIndicator[];
+	service?: NodeService;
+}
