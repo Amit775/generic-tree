@@ -8,6 +8,7 @@ export class TreeService {
     constructor(private store: TreeStore, private query: TreeQuery) { }
 
     setNodes(nodes: INodeState[]): void {
+		this.query.selectAll().subscribe(x => console.log(x));
         this.store.set(nodes);
     }
 

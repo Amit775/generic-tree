@@ -21,11 +21,6 @@
     "@angular/platform-browser-dynamic": "~13.1.0",
     "@angular/router": "~13.1.0",
     "@datorama/akita": "7.0.1",
-    "@ngneat/elf": "^1.0.2",
-    "@ngneat/elf-cli-ng": "^1.0.0",
-    "@ngneat/elf-devtools": "^1.2.0",
-    "@ngneat/elf-entities": "^2.0.2",
-    "@ngneat/elf-state-history": "^1.0.1",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
@@ -48,7 +43,9 @@
   "elf": {
     "cli": {
       "repoTemplate": "class",
-      "plugins": ["@ngneat/elf-cli-ng"]
+      "plugins": [
+        "@ngneat/elf-cli-ng"
+      ]
     }
   }
 }

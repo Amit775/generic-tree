@@ -6,11 +6,13 @@ import { AppComponent } from './app.component';
 import { TreeModule } from './tree/tree.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './tree/shared/material/material.module';
+import { NotNullPipe } from './not-null.pipe';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+	NotNullPipe
   ],
   imports: [
     BrowserModule,

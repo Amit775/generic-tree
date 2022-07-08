@@ -1261,31 +1261,6 @@
   resolved "https://registry.yarnpkg.com/@jridgewell/resolve-uri/-/resolve-uri-1.0.0.tgz#3fdf5798f0b49e90155896f6291df186eac06c83"
   integrity sha512-9oLAnygRMi8Q5QkYEU4XWK04B+nuoXoxjRvRxgjuChkLZFBja0YPSgdZ7dZtwhncLBcQe/I/E+fLuk5qxcYVJA==
 
-"@ngneat/elf-cli-ng@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@ngneat/elf-cli-ng/-/elf-cli-ng-1.0.0.tgz#8f940a10aece5228aa87bc2b740e9e1749e1ecf7"
-  integrity sha512-twAvWL5tEtBy/Q65kqoa5aaSE4kG1sFGLZH7QPJwLEBuFayDIzyhT/swJQVLZc+Dv6M4cdHpAyLAg3OfeuWd+Q==
-
-"@ngneat/elf-devtools@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@ngneat/elf-devtools/-/elf-devtools-1.2.0.tgz#820b4960cabb8e357a6b87c47569c6a0e57d3669"
-  integrity sha512-0mnW7O9qP6qs45abzTCkk5jI9tBsxtQlMizMJCD+HvHHfQk1l5Z7w9PyBhX7hrD5pw0xYc3XE5fuEzQSzP6Jjg==
-
-"@ngneat/elf-entities@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@ngneat/elf-entities/-/elf-entities-2.0.2.tgz#f931925a68861d8b6e48bdee56a62aae831ede0a"
-  integrity sha512-1lmuoizq4soOZdk5TqceKuXQI/DtXXPFcCY72KfwWSK8FmBMVBB8C63efX33k5aXSn+EOXOSPwSP96T5pI9qFA==
-
-"@ngneat/elf-state-history@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@ngneat/elf-state-history/-/elf-state-history-1.0.1.tgz#f00e41ac2258b5d2e0ac93b4c1c428e985f3d2f1"
-  integrity sha512-CSH8LTDL/xUGxgEJl2L2l+EXuMo2VHLdbRzxDcmJLTIgrMwm7celTpkLcGK/vwbreyUFnH85YyLQzVHl+UFowQ==
-
-"@ngneat/elf@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@ngneat/elf/-/elf-1.0.2.tgz#5d9bf25977396285648bbeb931aae2f346e3bd7a"
-  integrity sha512-tfQX92CjTrjUFmR0VxS8M7EJgQFm+u1FGMLVbnwmAf7De0ITZ2w96n9q4bwa++3hXxBo0ODGzWjmO1Y7RxXOUA==
-
 "@ngtools/webpack@13.1.2":
   version "13.1.2"
   resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-13.1.2.tgz#58d8bfe8b3d4ee3b5aa1ceb3f7911b77410c6c6b"
