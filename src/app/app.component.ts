@@ -1,10 +1,13 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { from, Observable, of, tap } from 'rxjs';
+import { TreeService } from './tree/core/tree/tree.service';
 import { INodeState } from './tree/models/node.state';
 
 interface NodeData {
   display: string;
-  children?: NodeData[]
+  id: string;
+  parentId: string | null;
 }
 @Component({
   selector: 'app-root',
@@ -15,42 +18,29 @@ interface NodeData {
 export class AppComponent implements OnInit {
   title = 'generic-tree';
 
+  constructor(
+	private service: TreeService
+  ) { }
+
   nodes: INodeState[] = [];
   roots: INodeState[] = [];
   ngOnInit(): void {
-    this.nodes = this.convertNodes(this.nodesData);
+	this.fetchNodes$().pipe();
+		// this.service.setNodes(nodes)));
+    // this.nodes = this.convertNodes(this.nodesData);
     this.roots = this.nodes.filter(node => node.path.length == 1);
   }
 
-  nodesData: NodeData[] = [
-    { display: 'a' },
-    {
-      display: 'b',
-      children: [
-        { display: 'ba' },
-        {
-          display: 'bb',
-          children: [
-            { display: 'bba' },
-            { display: 'bbb' },
-            { display: 'bbc' },
-          ],
-        },
-        { display: 'bc' },
-      ],
-    },
-  ];
-
-  // nodesData: NodeData[] = [
-  //   { display: 'a', children: [{ display: 'child' }] },
-  //   { display: 'b' },
-  //   { display: 'ba' },
-  //   { display: 'bb' },
-  //   { display: 'bba' },
-  //   { display: 'bbb' },
-  //   { display: 'bbc' },
-  //   { display: 'bc' },
-  // ];
+  fetchNodes$(): Observable<NodeData[]> {
+	const nodes: NodeData[] = [
+		{ id: 'a', display: 'a', parentId: null },
+		{ id: 'b', display: 'b', parentId: null },
+		{ id: 'c', display: 'c', parentId: null },
+		{ id: 'ba', display: 'ba', parentId: 'b' },
+		{ id: 'ab', display: 'ab', parentId: 'a' }
+	]
+	return of(nodes);
+  }
 
   convertNodes(datas: any[]): INodeState[] {
     const nodes: INodeState[] = []

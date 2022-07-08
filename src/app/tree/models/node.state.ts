@@ -1,5 +1,4 @@
 import { NodeService } from "../core/node/node.service";
-import { IIndicator } from "../layout/node-indicators/node-indicator/node-indicator.component";
 import { Flags } from "./flags.model";
 
 export interface INodeState<T = any> {
@@ -8,6 +7,5 @@ export interface INodeState<T = any> {
     path: string[];
     flags: Partial<Flags>;
     data: T;
-    indicators?: IIndicator[];
     service?: NodeService;
   }

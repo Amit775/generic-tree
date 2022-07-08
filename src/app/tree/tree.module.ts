@@ -5,8 +5,6 @@ import { NodeChildrenComponent } from './layout/node-children/node-children.comp
 import { NodeCollectionComponent } from './layout/node-collection/node-collection.component';
 import { NodeContentComponent } from './layout/node-content/node-content.component';
 import { NodeExpanderComponent } from './layout/node-expander/node-expander.component';
-import { NodeIndicatorComponent } from './layout/node-indicators/node-indicator/node-indicator.component';
-import { NodeIndicatorsComponent } from './layout/node-indicators/node-indicators.component';
 import { NodeWrapperComponent } from './layout/node-wrapper/node-wrapper.component';
 import { NodeComponent } from './layout/node/node.component';
 import { RootComponent } from './layout/root/root.component';
@@ -20,13 +18,11 @@ import { TypePipe } from './shared/type.pipe';
     RootComponent,
     NodeComponent,
     NodeWrapperComponent,
-    NodeIndicatorComponent,
     NodeExpanderComponent,
     NodeContentComponent,
     NodeCollectionComponent,
     NodeChildrenComponent,
     AnimateExpandDirective,
-    NodeIndicatorsComponent,
     TypePipe
   ],
   imports: [
