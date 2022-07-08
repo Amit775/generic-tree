@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { applyTransaction, distinctUntilArrayItemChanged } from "@datorama/akita";
-import { map, mapTo, merge, Observable, of, shareReplay, switchMap, switchMapTo, tap } from "rxjs";
+import { map, Observable, shareReplay } from "rxjs";
 import { Flags } from "../../models/flags.model";
 import { INodeState } from "../../models/node.state";
 import { TreeStore } from "../tree/tree.store";
