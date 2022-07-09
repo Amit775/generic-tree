@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
-import { EntityStore, StoreConfig } from '@datorama/akita';
+import { EntityState, EntityStore, StoreConfig } from '@datorama/akita';
 import { INodeState } from '../../models/node.state';
-import { INodesState } from '../../models/tree.state';
 
+export interface INodesState extends EntityState<INodeState, string> { }
 
 @Injectable({ providedIn: 'root' })
 @StoreConfig({ name: 'nodes' })
 export class NodesStore extends EntityStore<INodesState, INodeState, string> {
-  constructor() {
-    super();
-  }
+	constructor() { super(); }
 }

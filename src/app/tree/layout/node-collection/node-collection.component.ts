@@ -1,11 +1,9 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { NodesQuery } from '../../core/nodes/nodes.query';
 import { TemplatesService, TreeNodeTemplates } from '../../core/templates.service';
 import { TreeQuery } from '../../core/tree/tree.query';
 import { SubTree } from '../../core/tree/tree.store';
-import { INodeState } from '../../models/node.state';
 
 @Component({
 	selector: 'tree-node-collection',
@@ -13,14 +11,13 @@ import { INodeState } from '../../models/node.state';
 	styleUrls: ['./node-collection.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NodeCollectionComponent implements OnInit, AfterViewInit {
+export class NodeCollectionComponent implements OnInit {
 	template: TreeNodeTemplates['full'] | null = null;
 
-	@Input() parent!: SubTree;
+	@Input() subTree!: SubTree;
 
-	public nodes$!: Observable<INodeState[] | undefined>;
+	public children$!: Observable<SubTree[]>;
 
-	ngAfterViewInit(): void { }
 	constructor(
 		private templates: TemplatesService,
 		private treeQuery: TreeQuery,
@@ -28,10 +25,10 @@ export class NodeCollectionComponent implements OnInit, AfterViewInit {
 
 	ngOnInit(): void {
 		this.template = this.templates.getTemplate('full');
-		this.nodes$ = this.treeQuery.selectChildrenOfNode(this.parent.id);
+		this.children$ = this.treeQuery.selectMany(this.subTree.children!);
 	}
 
-	trackNode(_: number, node: INodeState): string {
+	trackNode(_: number, node: SubTree): string {
 		return node.id;
 	}
 

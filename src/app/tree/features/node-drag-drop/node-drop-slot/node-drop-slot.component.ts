@@ -6,28 +6,31 @@ import { INodeState } from 'src/app/tree/models/node.state';
 import { NodeDragDropService } from './node-drag-drop.service';
 
 @Component({
-  selector: 'tree-node-drop-slot',
-  templateUrl: './node-drop-slot.component.html',
-  styleUrls: ['./node-drop-slot.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+	selector: 'tree-node-drop-slot',
+	templateUrl: './node-drop-slot.component.html',
+	styleUrls: ['./node-drop-slot.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NodeDropSlotComponent implements OnInit, AfterViewInit {
-  otherDropList$!: Observable<CdkDropList[]>;
-  @ViewChild(CdkDropList) private dropList!: CdkDropList;
+	otherDropList$!: Observable<CdkDropList[]>;
+	@ViewChild(CdkDropList) private dropList!: CdkDropList;
 
-  @Input() node!: INodeState;
-  constructor(private service: NodeService, private dndService: NodeDragDropService) { }
+	@Input() node!: INodeState;
+	constructor(
+		private service: NodeService,
+		private dndService: NodeDragDropService
+	) { }
 
-  ngOnInit(): void {
-  }
-  
-  ngAfterViewInit(): void {
-    // this.dndService.registerDragAndDrop(this.dropList);
-    // this.otherDropList$ = this.dndService.otherDragAndDrops$(this.dropList)
-    // this.otherDropList$.subscribe(x => console.log('other then ' + this.dropList.id, x));
-  }
+	ngOnInit(): void {
+	}
 
-  drop(event: CdkDragDrop<any>): void {
-    console.log(event);
-  }
+	ngAfterViewInit(): void {
+		// this.dndService.registerDragAndDrop(this.dropList);
+		// this.otherDropList$ = this.dndService.otherDragAndDrops$(this.dropList)
+		// this.otherDropList$.subscribe(x => console.log('other then ' + this.dropList.id, x));
+	}
+
+	drop(event: CdkDragDrop<any>): void {
+		console.log(event);
+	}
 }

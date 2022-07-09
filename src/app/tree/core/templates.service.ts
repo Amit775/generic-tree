@@ -2,16 +2,17 @@ import { Injectable, TemplateRef } from "@angular/core";
 import { BehaviorSubject, distinctUntilChanged, map, Observable } from "rxjs";
 import { INodeState } from "../models/node.state";
 
+export type TreeNodeTemplate = TemplateRef<TreeNodeContext>;
 
 export interface TreeNodeContext {
     node$: Observable<INodeState>;
 }
 
 export interface TreeNodeTemplates {
-    content: TemplateRef<TreeNodeContext> | null;
-    loading: TemplateRef<TreeNodeContext> | null;
-    wrapper: TemplateRef<TreeNodeContext> | null;
-    full: TemplateRef<TreeNodeContext> | null;
+    content: TreeNodeTemplate | null;
+    loading: TreeNodeTemplate | null;
+    wrapper: TreeNodeTemplate | null;
+    full: TreeNodeTemplate | null;
 }
 
 const nullTreeNodeTemplates: TreeNodeTemplates = {

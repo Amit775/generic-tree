@@ -31,15 +31,17 @@ export class AppComponent implements OnInit {
 		private treeQuery: TreeQuery
 	) { }
 
-	nodes$!: Observable<INodeState[]>;
+	root$!: Observable<SubTree | undefined>;
+
 	ngOnInit(): void {
 		this.treeQuery.selectAll().subscribe(x => console.log('tree', x));
 		this.nodesQuery.selectAll().subscribe(x => console.log('nodes', x));
-		this.nodes$ = this.fetchNodes$().pipe(
+		this.root$ = this.fetchNodes$().pipe(
 			tap(nodes => this.buildStores(nodes)),
-			switchMap(() => this.treeQuery.selectChildrenOfNode('root'))
+			switchMap(() => this.treeQuery.selectEntity('root'))
 		);
 	}
+
 	fetchNodes$(): Observable<NodeData[]> {
 		const nodes: NodeData[] = [
 			{ id: 'a', display: 'a', parentId: null },
@@ -99,27 +101,20 @@ export class AppComponent implements OnInit {
 	}
 
 	convertNodes(datas: NodeData[]): INodeState[] {
-		const nodes: INodeState[] = [];
-		datas.map((data, index) => this.convert(nodes, data, index, undefined));
-		return nodes;
+		return datas.map(data => this.convert(data));
 	}
 
-	convert(nodes: INodeState[], data: any, index: number, parent?: INodeState | undefined): INodeState {
-		const node: INodeState = {
+	convert(data: NodeData): INodeState {
+		return {
 			data,
 			flags: {},
-			id: data['id'],
+			id: data.id,
 		}
-
-		nodes.push(node);
-
-		return node;
 	}
 
 	drop(event: CdkDragDrop<string>): void {
 		console.log(event);
 	}
-
 
 	addNode(): void {
 

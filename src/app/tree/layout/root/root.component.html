@@ -1,5 +1,5 @@
 <div class="tree-root">
-	<tree-node-collection *ngIf="(virtualRoot$ | async) as root" [parent]="root!" dragAndDropManagerRoot cdkDropList
+	<tree-node-collection *ngIf="(virtualRoot$ | async) as root" [subTree]="root!" dragAndDropManagerRoot cdkDropList
 		[id]="root.id" [cdkDropListData]="root" (cdkDropListDropped)="onDrop($event)">
 	</tree-node-collection>
 </div>

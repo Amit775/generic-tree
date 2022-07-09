@@ -1,13 +1,9 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { filterNilValue } from '@datorama/akita';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { NodeService } from '../../core/node/node.service';
-import { NodesQuery } from '../../core/nodes/nodes.query';
-import { TreeQuery } from '../../core/tree/tree.query';
 import { SubTree } from '../../core/tree/tree.store';
 import { NodeDragDropService } from '../../features/node-drag-drop/node-drop-slot/node-drag-drop.service';
-import { INodeState } from '../../models/node.state';
 
 @Component({
 	selector: 'tree-node-children',
@@ -17,26 +13,25 @@ import { INodeState } from '../../models/node.state';
 })
 export class NodeChildrenComponent implements OnInit {
 
-	@Input() node!: INodeState;
+	@Input() subTree!: SubTree;
+
 	constructor(
-		private treeQuery: TreeQuery,
 		private service: NodeService,
 		private dragService: NodeDragDropService
 	) { }
 
-	children$!: Observable<INodeState[]>;
-	node$!: Observable<SubTree>;
 	isExpanded$!: Observable<boolean | undefined>;
 
 	ngOnInit(): void {
-		console.log(this.node);
-		this.children$ = this.treeQuery.selectChildrenOfNode(this.node.id).pipe(tap(x => console.log('chilren of', this.node, x)));
-		this.node$ = this.treeQuery.selectEntity(this.node.id).pipe(filterNilValue());
 		this.isExpanded$ = this.service.selectFlag('expanded');
 	}
 
 	onDrop(event: CdkDragDrop<SubTree>) {
 		this.dragService.onDragDrop(event);
+	}
+
+	get hasChildren(): boolean {
+		return this.subTree.children != null && this.subTree.children.length > 0;
 	}
 
 }
