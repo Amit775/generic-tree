@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output
 import { map, Observable, tap } from 'rxjs';
 import { NodeService } from '../../core/node/node.service';
 import { TreeQuery } from '../../core/tree/tree.query';
+import { SubTree } from '../../core/tree/tree.store';
 import { INodeState } from '../../models/node.state';
 
 @Component({
@@ -12,6 +13,7 @@ import { INodeState } from '../../models/node.state';
 })
 export class NodeExpanderComponent implements OnInit {
 
+	public subTree!: SubTree;
 	@Input() node!: INodeState;
 	@Output() toggled = new EventEmitter<void>();
 
@@ -24,6 +26,7 @@ export class NodeExpanderComponent implements OnInit {
 	) { }
 
 	ngOnInit(): void {
+		this.subTree = this.treeQuery.getEntity(this.node.id)!;
 		this.isExpanded$ = this.service.selectFlag('expanded');
 		this.hasChildren$ = this.treeQuery.selectEntity(this.node.id).pipe(
 			map(node => node?.children && node.children.length > 0),

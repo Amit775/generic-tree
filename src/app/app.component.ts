@@ -107,18 +107,11 @@ export class AppComponent implements OnInit {
 	convert(nodes: INodeState[], data: any, index: number, parent?: INodeState | undefined): INodeState {
 		const node: INodeState = {
 			data,
-			path: parent ? [...parent.path, parent.id] : ['root'],
 			flags: {},
 			id: data['id'],
 		}
 
 		nodes.push(node);
-
-		if (data.children) {
-			const childrenNodes: INodeState[] = data.children.map((childData: any, childIndex: number) => this.convert(nodes, childData, childIndex, node));
-			nodes = [...nodes, ...childrenNodes];
-			node.children = childrenNodes;
-		}
 
 		return node;
 	}

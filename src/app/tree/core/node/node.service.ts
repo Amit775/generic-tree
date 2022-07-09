@@ -27,9 +27,9 @@ export class NodeService {
         return this.query.select();
     }
 
-    selectNodeWithChildren(): Observable<INodeState[]> {
-        return this.query.select().pipe(map<INodeState, INodeState[]>((node: INodeState) => ([...this.query.query.getChildrenNodes(this._id) ?? [], node])), distinctUntilArrayItemChanged(), shareReplay({ refCount: true }));
-    }
+    // selectNodeWithChildren(): Observable<INodeState[]> {
+    //     return this.query.select().pipe(map<INodeState, INodeState[]>((node: INodeState) => ([...this.query.query.getChildrenNodes(this._id) ?? [], node])), distinctUntilArrayItemChanged(), shareReplay({ refCount: true }));
+    // }
 
     toggleFlag(flag: keyof Flags, single: boolean = false): void {
         applyTransaction(() => {
