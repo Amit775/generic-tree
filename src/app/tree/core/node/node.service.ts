@@ -3,13 +3,13 @@ import { applyTransaction, distinctUntilArrayItemChanged } from "@datorama/akita
 import { map, Observable, shareReplay } from "rxjs";
 import { Flags } from "../../models/flags.model";
 import { INodeState } from "../../models/node.state";
-import { TreeStore } from "../tree/tree.store";
+import { NodesStore } from "../nodes/nodes.store";
 import { NodeQuery } from "./node.query";
 import { NodeStore } from "./node.store";
 
 @Injectable()
 export class NodeService {
-    constructor(private query: NodeQuery, private store: NodeStore, private treeStore: TreeStore) { }
+    constructor(private query: NodeQuery, private store: NodeStore, private treeStore: NodesStore) { }
     private _id!: string;
     singleFlags: { [flag: keyof Flags]: boolean } = { active: true };
 

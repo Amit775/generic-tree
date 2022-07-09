@@ -1,18 +1,12 @@
 import { Injectable } from "@angular/core";
-import { TreeStore } from "./tree.store";
-import { TreeQuery } from "./tree.query";
-import { INodeState } from "../../models/node.state";
+import { HashMap } from "@datorama/akita";
+import { SubTree, TreeStore } from "./tree.store";
 
 @Injectable({ providedIn: 'root' })
 export class TreeService {
-    constructor(private store: TreeStore, private query: TreeQuery) { }
-
-    setNodes(nodes: INodeState[]): void {
-		this.query.selectAll().subscribe(x => console.log(x));
-        this.store.set(nodes);
-    }
-
-    addNodes(nodes: INodeState[]): void {
-        this.store.add(nodes);
-    }
+	constructor(private store: TreeStore) { }
+	
+	public setSubTrees(subTrees: HashMap<SubTree>) {
+		this.store.set(subTrees);
+	}
 }

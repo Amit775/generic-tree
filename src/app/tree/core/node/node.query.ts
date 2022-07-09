@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { map, Observable, tap } from "rxjs";
 import { INodeState } from "../../models/node.state";
-import { TreeQuery } from "../tree/tree.query";
+import { NodesQuery } from "../nodes/nodes.query";
 
 @Injectable()
 export class NodeQuery {
@@ -17,7 +17,7 @@ export class NodeQuery {
         return this._id;
     }
     
-    constructor(public query: TreeQuery) { }
+    constructor(public query: NodesQuery) { }
 
     get(): INodeState;
     get<R>(project: (state?: INodeState) => R): R;

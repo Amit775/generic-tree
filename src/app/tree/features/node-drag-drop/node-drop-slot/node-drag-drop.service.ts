@@ -1,8 +1,8 @@
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from "@angular/cdk/drag-drop";
+import { CdkDragDrop } from "@angular/cdk/drag-drop";
 import { Injectable } from "@angular/core";
 import { applyTransaction } from "@datorama/akita";
 import { BehaviorSubject } from "rxjs";
-import { TreeStore } from "src/app/tree/core/tree/tree.store";
+import { NodesStore } from "src/app/tree/core/nodes/nodes.store";
 import { INodeState } from "src/app/tree/models/node.state";
 
 @Injectable({ providedIn: 'root' })
@@ -10,7 +10,7 @@ export class NodeDragDropService {
     private _dragAndDrops = new BehaviorSubject<string[]>([]);
     public dragAndDrops$ = this._dragAndDrops.asObservable();
 
-    constructor(private store: TreeStore) { }
+    constructor(private store: NodesStore) { }
 
     public register(id: string): void {
         this._dragAndDrops.next([...this._dragAndDrops.value, id]);

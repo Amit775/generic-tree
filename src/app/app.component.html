@@ -1,15 +1,19 @@
+<button mat-raised-button (click)="addNode()">Add</button>
+<button mat-raised-button (click)="removeNode()">Remove</button>
+<button mat-raised-button (click)="updateNode()">Update</button>
+
 <tree-root [nodes]="nodes$ | async | notNull : []">
     <ng-template let-node$="node$" #treeNodeContent>
         <span>bublil</span>
         <span> {{ (node$ | async | type )['data']['display'] }} </span>
     </ng-template>
+</tree-root>
 
     <!-- <ng-template let-node="node" #treeNodeFull>
         <tree-node [node]="node" cdkDrag cdkDragLockAxis="y" [cdkDragData]="node.id">
             <tree-node-content></tree-node-content>
         </tree-node>
     </ng-template> -->
-</tree-root>
 <!-- <mat-list>
     <mat-list-item *ngFor="let item of roots">
         <div class="folder" *ngIf="item.children; else leaf;">

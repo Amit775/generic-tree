@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { UpdateStateCallback } from "@datorama/akita";
 import { INodeState } from "../../models/node.state";
-import { TreeStore } from "../tree/tree.store";
+import { NodesStore } from "../nodes/nodes.store";
 
 @Injectable()
 export class NodeStore {
@@ -17,7 +17,7 @@ export class NodeStore {
         return this._id;
     }
     
-    constructor(public store: TreeStore) { }
+    constructor(public store: NodesStore) { }
 
     update(updatefn: UpdateStateCallback<INodeState>): void;
     update(update: Partial<INodeState>): void;

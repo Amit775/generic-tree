@@ -1,8 +1,12 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { from, map, Observable, of, tap } from 'rxjs';
+import { HashMap } from '@datorama/akita';
+import { tap, Observable, of, switchMap } from 'rxjs';
+import { NodesQuery } from './tree/core/nodes/nodes.query';
+import { NodesService } from './tree/core/nodes/nodes.service';
 import { TreeQuery } from './tree/core/tree/tree.query';
 import { TreeService } from './tree/core/tree/tree.service';
+import { SubTree } from './tree/core/tree/tree.store';
 import { INodeState } from './tree/models/node.state';
 
 interface NodeData {
@@ -10,6 +14,7 @@ interface NodeData {
 	id: string;
 	parentId: string | null;
 }
+
 @Component({
 	selector: 'app-root',
 	templateUrl: './app.component.html',
@@ -20,15 +25,21 @@ export class AppComponent implements OnInit {
 	title = 'generic-tree';
 
 	constructor(
-		private service: TreeService,
-		private query: TreeQuery
+		private nodesService: NodesService,
+		private treeService: TreeService,
+		private nodesQuery: NodesQuery,
+		private treeQuery: TreeQuery
 	) { }
 
 	nodes$!: Observable<INodeState[]>;
 	ngOnInit(): void {
-		this.nodes$ = this.fetchNodes$().pipe(map(nodes => this.convertNodes(nodes)));
+		this.treeQuery.selectAll().subscribe(x => console.log('tree', x));
+		this.nodesQuery.selectAll().subscribe(x => console.log('nodes', x));
+		this.nodes$ = this.fetchNodes$().pipe(
+			tap(nodes => this.buildStores(nodes)),
+			switchMap(() => this.treeQuery.selectChildrenOfNode('root'))
+		);
 	}
-
 	fetchNodes$(): Observable<NodeData[]> {
 		const nodes: NodeData[] = [
 			{ id: 'a', display: 'a', parentId: null },
@@ -40,9 +51,42 @@ export class AppComponent implements OnInit {
 		return of(nodes);
 	}
 
-	convertNodes(datas: NodeData[]): INodeState[] {
-		const nodes: INodeState[] = [];
-		const indexedByParentId: { [parentId: string]: NodeData[] } = datas.reduce((result, data) => {
+	buildStores(nodes: NodeData[]): void {
+		this.treeService.setSubTrees(this.buildTree(nodes));
+		this.nodesService.setNodes(this.convertNodes(nodes));
+	}
+
+	buildTree(nodes: NodeData[]): HashMap<SubTree> {
+		const indexedByParentId = this.indexByParentId(nodes);
+		const subTrees: HashMap<SubTree> = {
+			root: {
+				id: 'root',
+				path: [],
+				children: indexedByParentId['root'].map(child => child.id)
+			}
+		};
+
+		function buildSubTree(parentId: string): void {
+			const { children, path } = subTrees[parentId];
+
+			children?.forEach(childId => {
+				subTrees[childId] = {
+					id: childId,
+					path: [...path, parentId],
+					children: indexedByParentId[childId]?.map(grandChild => grandChild.id)
+				}
+
+				buildSubTree(childId);
+			});
+		}
+
+		buildSubTree('root');
+
+		return subTrees;
+	}
+
+	indexByParentId(nodes: NodeData[]): HashMap<NodeData[]> {
+		const indexedByParentId: HashMap<NodeData[]> = nodes.reduce((result, data) => {
 			const parentId = data.parentId || 'root';
 			if (!Object.keys(result).includes(parentId)) {
 				result[parentId] = [];
@@ -50,11 +94,13 @@ export class AppComponent implements OnInit {
 
 			result[parentId].push(data);
 			return result;
-		}, {} as { [parentId: string]: NodeData[] })
+		}, {} as HashMap<NodeData[]>);
+		return indexedByParentId;
+	}
 
+	convertNodes(datas: NodeData[]): INodeState[] {
+		const nodes: INodeState[] = [];
 		datas.map((data, index) => this.convert(nodes, data, index, undefined));
-		console.log(nodes);
-
 		return nodes;
 	}
 
@@ -63,7 +109,7 @@ export class AppComponent implements OnInit {
 			data,
 			path: parent ? [...parent.path, parent.id] : ['root'],
 			flags: {},
-			id: uuid()
+			id: data['id'],
 		}
 
 		nodes.push(node);
@@ -79,6 +125,19 @@ export class AppComponent implements OnInit {
 
 	drop(event: CdkDragDrop<string>): void {
 		console.log(event);
+	}
+
+
+	addNode(): void {
+
+	}
+
+	removeNode(): void {
+
+	}
+
+	updateNode(): void {
+
 	}
 }
 
