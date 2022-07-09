@@ -4,13 +4,12 @@ import { INodeState } from "../../models/node.state";
 
 export interface SubTreeNode<T> {
 	node: T;
-	path: T[];
 	children: T[];
 }
 
 export interface SubTree {
 	id: string;
-	path: string[];
+	parentId: string | null;
 	children: string[] | undefined;
 }
 
@@ -20,6 +19,6 @@ export interface ITreeState<T = INodeState> extends EntityState<SubTree> {
 
 @Injectable({ providedIn: 'root' })
 @StoreConfig({ name: 'tree' })
-export class TreeStore extends EntityStore<ITreeState<INodeState>> {
+export class TreeStore extends EntityStore<ITreeState> {
 	constructor() { super(); }
 }

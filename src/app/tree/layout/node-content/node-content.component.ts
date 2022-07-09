@@ -1,33 +1,32 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component, OnInit,
-  TemplateRef
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnInit, TemplateRef } from '@angular/core';
+import { Observable } from 'rxjs';
 import { NodeService } from '../../core/node/node.service';
 import { TemplatesService, TreeNodeContext } from '../../core/templates.service';
+import { SubTree } from '../../core/tree/tree.store';
 import { INodeState } from '../../models/node.state';
-
+import { INodesState } from '../../models/tree.state';
 
 @Component({
-  selector: 'tree-node-content',
-  templateUrl: './node-content.component.html',
-  styleUrls: ['./node-content.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+	selector: 'tree-node-content',
+	templateUrl: './node-content.component.html',
+	styleUrls: ['./node-content.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NodeContentComponent implements OnInit, AfterViewInit {
-  template!: TemplateRef<TreeNodeContext> | null;
-  context!: TreeNodeContext;
-  constructor(private service: NodeService, private templates: TemplatesService) { }
+	template!: Observable<TemplateRef<TreeNodeContext> | null>;
+	context!: TreeNodeContext;
 
-  ngOnInit(): void {
-    this.template = this.templates.getTemplate('content');
-    this.context = { node$: this.service.selectNode() }
-  }
+	@Input() node!: INodesState;
 
-  public get node(): INodeState<{ display: string }> {
-    return this.service.getNode()
-  }
+	constructor(
+		private service: NodeService,
+		private templates: TemplatesService
+	) { }
 
-  ngAfterViewInit(): void { }
+	ngOnInit(): void {
+		this.template = this.templates.selectTemplate$('content');
+		this.context = { node$: this.service.selectNode() }
+	}
+
+	ngAfterViewInit(): void { }
 }

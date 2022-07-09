@@ -2,7 +2,7 @@
 <button mat-raised-button (click)="removeNode()">Remove</button>
 <button mat-raised-button (click)="updateNode()">Update</button>
 
-<tree-root [nodes]="nodes$ | async | notNull : []">
+<tree-root *ngIf="nodes$ | async">
     <ng-template let-node$="node$" #treeNodeContent>
         <span>bublil</span>
         <span> {{ (node$ | async | type )['data']['display'] }} </span>

@@ -61,18 +61,18 @@ export class AppComponent implements OnInit {
 		const subTrees: HashMap<SubTree> = {
 			root: {
 				id: 'root',
-				path: [],
+				parentId: null,
 				children: indexedByParentId['root'].map(child => child.id)
 			}
 		};
 
 		function buildSubTree(parentId: string): void {
-			const { children, path } = subTrees[parentId];
+			const { children } = subTrees[parentId];
 
 			children?.forEach(childId => {
 				subTrees[childId] = {
 					id: childId,
-					path: [...path, parentId],
+					parentId: parentId,
 					children: indexedByParentId[childId]?.map(grandChild => grandChild.id)
 				}
 

@@ -38,7 +38,6 @@ export class NodeComponent implements OnInit, AfterViewInit, AfterViewChecked, D
 	}
 	ngOnInit(): void {
 		this.service.init(this.node.id);
-		console.log(this.node);
 		this.template = this.templates.getTemplate('full');
 		this.context = { node$: this.service.selectNode() }
 	}

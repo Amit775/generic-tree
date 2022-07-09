@@ -16,11 +16,6 @@ import { INodeState } from '../../models/node.state';
 export class NodeCollectionComponent implements OnInit, AfterViewInit {
 	template: TreeNodeTemplates['full'] | null = null;
 
-	@Input('templates') set templatesInput(value: TreeNodeTemplates | undefined) {
-		if (!value) return;
-		this.templates.setTemplates(value);
-	}
-
 	@Input() parent!: SubTree;
 
 	public nodes$!: Observable<INodeState[] | undefined>;
@@ -29,7 +24,6 @@ export class NodeCollectionComponent implements OnInit, AfterViewInit {
 	constructor(
 		private templates: TemplatesService,
 		private treeQuery: TreeQuery,
-		private nodesQuery: NodesQuery
 	) { }
 
 	ngOnInit(): void {
@@ -37,7 +31,7 @@ export class NodeCollectionComponent implements OnInit, AfterViewInit {
 		this.nodes$ = this.treeQuery.selectChildrenOfNode(this.parent.id);
 	}
 
-	trackNode(index: number, node: INodeState): string {
+	trackNode(_: number, node: INodeState): string {
 		return node.id;
 	}
 

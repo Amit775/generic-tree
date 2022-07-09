@@ -35,7 +35,7 @@ export class NodeChildrenComponent implements OnInit {
 		this.isExpanded$ = this.service.selectFlag('expanded');
 	}
 
-	onDrop(event: CdkDragDrop<INodeState>) {
+	onDrop(event: CdkDragDrop<SubTree>) {
 		this.dragService.onDragDrop(event);
 	}
 

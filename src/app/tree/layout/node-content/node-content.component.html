@@ -1,7 +1,8 @@
 <div class="tree-node-content">
-    <ng-container *ngIf="!template">
-        <span> {{ node.data.display }} </span>
+    <ng-container *ngIf="(template | async) == null">
+		not bublil
+        <span> {{ node['data'].display }} </span>
     </ng-container>
-    <ng-container [ngTemplateOutlet]="template" [ngTemplateOutletContext]="context">
+    <ng-container [ngTemplateOutlet]="template | async" [ngTemplateOutletContext]="context">
     </ng-container>
 </div>

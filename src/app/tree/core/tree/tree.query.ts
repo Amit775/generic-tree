@@ -3,7 +3,7 @@ import { QueryEntity } from "@datorama/akita";
 import { Observable } from "rxjs";
 import { INodeState } from "../../models/node.state";
 import { NodesQuery } from "../nodes/nodes.query";
-import { ITreeState, SubTree, TreeStore } from "./tree.store";
+import { ITreeState, TreeStore } from "./tree.store";
 
 @Injectable({ providedIn: 'root' })
 export class TreeQuery extends QueryEntity<ITreeState> {
@@ -15,5 +15,10 @@ export class TreeQuery extends QueryEntity<ITreeState> {
 	selectChildrenOfNode(nodeId: string): Observable<INodeState[]> {
 		const childrenIds = this.getEntity(nodeId)?.children || [];
 		return this.nodesQuery.selectMany(childrenIds);
+	}
+
+	getNodePath(nodeId: string): string[] {
+		const parentId = this.getEntity(nodeId)!.parentId;
+		return parentId ? [...this.getNodePath(parentId), parentId] : [];
 	}
 }
