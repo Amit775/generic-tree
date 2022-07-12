@@ -14,6 +14,13 @@ export class TreeService {
 		this.store.set(subTrees);
 	}
 
+	public addNode(subTree: SubTree): void {
+		applyTransaction(() => {
+			this.store.add(subTree);
+			this.store.update(subTree.parentId, e => ({ ...e, children: [...e.children ?? [], subTree.id] }))
+		});
+	}
+
 	public moveNode(node: SubTree, from: NodeIndexInParent, to: NodeIndexInParent): void {
 		applyTransaction(() => {
 			this.store.update(node.id, { parentId: to.parent.id });

@@ -36,9 +36,11 @@ export class NodeService {
 		applyTransaction(() => {
 			if (single) {
 				this.nodesStore.update(node => node.flags[flag] === true, this.updateFlag(flag, false))
+				this.nodesStore.update(state => ({ ...state, active: [] }));
 			}
 
 			this.store.update(this.updateFlag(flag, !this.getNode().flags[flag]));
+			this.nodesStore.update(state => ({ ...state, active: [...state.active, this.getNode().id] }))
 		});
 	}
 

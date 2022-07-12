@@ -1,6 +1,6 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { HashMap } from '@datorama/akita';
+import { guid, HashMap } from '@datorama/akita';
 import { tap, Observable, of, switchMap } from 'rxjs';
 import { NodesQuery } from './tree/core/nodes/nodes.query';
 import { NodesService } from './tree/core/nodes/nodes.service';
@@ -34,8 +34,8 @@ export class AppComponent implements OnInit {
 	root$!: Observable<SubTree | undefined>;
 
 	ngOnInit(): void {
-		this.treeQuery.selectAll().subscribe(x => console.log('tree', x));
-		this.nodesQuery.selectAll().subscribe(x => console.log('nodes', x));
+		// this.treeQuery.selectAll().subscribe(x => console.log('tree', x));
+		// this.nodesQuery.selectAll().subscribe(x => console.log('nodes', x));
 		this.root$ = this.fetchNodes$().pipe(
 			tap(nodes => this.buildStores(nodes)),
 			switchMap(() => this.treeQuery.selectEntity('root'))
@@ -43,13 +43,7 @@ export class AppComponent implements OnInit {
 	}
 
 	fetchNodes$(): Observable<NodeData[]> {
-		const nodes: NodeData[] = [
-			{ id: 'a', display: 'a', parentId: null },
-			{ id: 'b', display: 'b', parentId: null },
-			{ id: 'c', display: 'c', parentId: null },
-			{ id: 'ba', display: 'ba', parentId: 'b' },
-			{ id: 'ab', display: 'ab', parentId: 'a' }
-		]
+		const nodes: NodeData[] = generateNodes(5);
 		return of(nodes);
 	}
 
@@ -117,7 +111,16 @@ export class AppComponent implements OnInit {
 	}
 
 	addNode(): void {
+		const parentId = this.nodesQuery.getActiveId()?.[0] || 'root';
+		const id = `new node - ${uuid()}`
+		const newNode: NodeData = {
+			id: id,
+			display: id,
+			parentId: parentId
+		};
 
+		this.treeService.addNode({ id: newNode.id, parentId: newNode.parentId, children: undefined });
+		this.nodesService.addNodes([this.convert(newNode)]);
 	}
 
 	removeNode(): void {
@@ -138,4 +141,21 @@ function uuid(): string {
 	}
 
 	return lastid;
+}
+
+function generateNodes(count: number, parentId: string = '', maxDepth: number = 5): NodeData[] {
+	const nodes: NodeData[] = [];
+	if (maxDepth === 0) return nodes;
+	for (let index = 0; index < count; index++) {
+		const id = parentId + "abcde"[index] 
+		nodes.push({
+			id: id,
+			display: id,
+			parentId: parentId || null
+		});
+
+		nodes.push(...generateNodes(count, id, maxDepth -1));
+	}
+
+	return nodes;
 }

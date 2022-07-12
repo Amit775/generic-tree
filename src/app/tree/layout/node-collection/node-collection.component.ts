@@ -1,6 +1,6 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, switchMap, tap } from 'rxjs';
 import { TemplatesService, TreeNodeTemplates } from '../../core/templates.service';
 import { TreeQuery } from '../../core/tree/tree.query';
 import { SubTree } from '../../core/tree/tree.store';
@@ -25,7 +25,9 @@ export class NodeCollectionComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.template = this.templates.getTemplate('full');
-		this.children$ = this.treeQuery.selectMany(this.subTree.children!);
+		this.children$ = this.treeQuery.selectEntity(this.subTree.id, e => e!.children!).pipe(
+			switchMap(ids => this.treeQuery.selectMany(ids))
+		);
 	}
 
 	trackNode(_: number, node: SubTree): string {

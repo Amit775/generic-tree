@@ -7,7 +7,7 @@ export interface SubTree {
 	children: string[] | undefined;
 }
 
-export interface ITreeState extends EntityState<SubTree> { }
+export interface ITreeState extends EntityState<SubTree, SubTree['id']> { }
 
 @Injectable({ providedIn: 'root' })
 @StoreConfig({ name: 'tree' })

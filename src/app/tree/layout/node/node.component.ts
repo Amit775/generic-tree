@@ -1,5 +1,5 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, Component, DoCheck, Input, OnInit } from '@angular/core';
 import { NodeQuery } from '../../core/node/node.query';
 import { NodeService } from '../../core/node/node.service';
 import { NodeStore } from '../../core/node/node.store';
@@ -14,11 +14,13 @@ import { NodeDragDropService } from '../../features/node-drag-drop/node-drop-slo
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	providers: [NodeService, NodeQuery, NodeStore]
 })
-export class NodeComponent implements OnInit {
+export class NodeComponent implements OnInit, AfterViewChecked {
 	template!: TreeNodeTemplate | null;
 	context!: TreeNodeContext;
 
-	@Input() subTree!: SubTree;
+	public _subTree!: SubTree;
+	@Input() set subTree(value: SubTree) { this._subTree = value; console.log('change', this.subTree?.id) }
+	public get subTree(): SubTree { return this._subTree; }
 
 	constructor(
 		private service: NodeService,
@@ -26,8 +28,12 @@ export class NodeComponent implements OnInit {
 		private dragService: NodeDragDropService,
 	) { }
 
+	ngAfterViewChecked(): void {
+		console.log(`change detection in node ${this._subTree.id}`);
+	}
+
 	ngOnInit(): void {
-		this.service.init(this.subTree.id);
+		this.service.init(this._subTree.id);
 		this.template = this.templates.getTemplate('full');
 		this.context = { node$: this.service.selectNode() }
 	}

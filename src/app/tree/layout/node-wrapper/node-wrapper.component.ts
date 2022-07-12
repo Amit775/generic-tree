@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { NodeService } from '../../core/node/node.service';
 import { TemplatesService, TreeNodeContext, TreeNodeTemplate } from '../../core/templates.service';
 import { TreeQuery } from '../../core/tree/tree.query';

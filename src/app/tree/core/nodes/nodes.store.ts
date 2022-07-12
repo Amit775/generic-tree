@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { EntityState, EntityStore, StoreConfig } from '@datorama/akita';
 import { INodeState } from '../../models/node.state';
 
-export interface INodesState extends EntityState<INodeState, string> { }
+export interface INodesState extends EntityState<INodeState, string> { 
+	active: string[];
+}
 
 @Injectable({ providedIn: 'root' })
 @StoreConfig({ name: 'nodes' })
