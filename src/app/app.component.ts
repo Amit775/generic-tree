@@ -106,10 +106,6 @@ export class AppComponent implements OnInit {
 		}
 	}
 
-	drop(event: CdkDragDrop<string>): void {
-		console.log(event);
-	}
-
 	addNode(): void {
 		const parentId = this.nodesQuery.getActiveId()?.[0] || 'root';
 		const id = `new node - ${uuid()}`
@@ -124,7 +120,8 @@ export class AppComponent implements OnInit {
 	}
 
 	removeNode(): void {
-
+		const nodeId = this.nodesQuery.getActiveId()?.[0] || 'root';
+		this.treeService.removeNode(nodeId);
 	}
 
 	updateNode(): void {

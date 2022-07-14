@@ -4,13 +4,13 @@
     cursor: pointer;
     transition: background-color 0.4s;
 
-    &.active:not(.drag-over) {
-        transition: background-color 0.4s;
-        background-color: cornflowerblue;
-    }
-    &:hover:not(.active) {
-        transition: background-color 0.4s;
+    // &.active:not(.drag-over) {
+    //     transition: background-color 0.4s;
+    //     background-color: cornflowerblue;
+    // }
+    // &:hover:not(.active) {
+    //     transition: background-color 0.4s;
 
-        background-color: lighten($color: rgb(100, 149, 237), $amount: 20);
-    }
+    //     background-color: lighten($color: rgb(100, 149, 237), $amount: 20);
+    // }
 }

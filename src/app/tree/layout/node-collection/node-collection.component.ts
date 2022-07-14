@@ -1,9 +1,9 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { Observable, switchMap, tap } from 'rxjs';
+import { distinctUntilArrayItemChanged } from '@datorama/akita';
+import { Observable } from 'rxjs';
 import { TemplatesService, TreeNodeTemplates } from '../../core/templates.service';
 import { TreeQuery } from '../../core/tree/tree.query';
-import { SubTree } from '../../core/tree/tree.store';
 
 @Component({
 	selector: 'tree-node-collection',
@@ -14,9 +14,9 @@ import { SubTree } from '../../core/tree/tree.store';
 export class NodeCollectionComponent implements OnInit {
 	template: TreeNodeTemplates['full'] | null = null;
 
-	@Input() subTree!: SubTree;
+	@Input() nodeId!: string;
 
-	public children$!: Observable<SubTree[]>;
+	public children$!: Observable<string[]>;
 
 	constructor(
 		private templates: TemplatesService,
@@ -25,17 +25,12 @@ export class NodeCollectionComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.template = this.templates.getTemplate('full');
-		this.children$ = this.treeQuery.selectEntity(this.subTree.id, e => e!.children!).pipe(
-			switchMap(ids => this.treeQuery.selectMany(ids))
+		this.children$ = this.treeQuery.selectEntity(this.nodeId, e => e!.children!).pipe(
+			distinctUntilArrayItemChanged(),
 		);
 	}
 
-	trackNode(_: number, node: SubTree): string {
-		return node.id;
-	}
-
-	drop(event: CdkDragDrop<string[]>): void {
-		console.log(event.container.data);
-		console.log(event);
+	trackNode(_: number, nodeId: string): string {
+		return nodeId;
 	}
 }

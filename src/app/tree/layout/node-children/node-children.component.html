@@ -1,4 +1,4 @@
 <div class="tree-node-children" *animateExpand="(isExpanded$ | async) === true">
-    <tree-node-collection *ngIf="hasChildren" [subTree]="subTree" cdkDropList [cdkDropListData]="subTree" dragAndDropManager
+    <tree-node-collection *ngIf="hasChildren" [nodeId]="nodeId" cdkDropList [cdkDropListData]="subTree" dragAndDropManager
         [id]="subTree.id" (cdkDropListDropped)="onDrop($event)"></tree-node-collection>
 </div>

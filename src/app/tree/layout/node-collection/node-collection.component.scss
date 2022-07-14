@@ -7,5 +7,15 @@
     .mat-list-item {
         height: auto;
     }
+}
 
+tree-node {
+	
+	&.checked {
+		background-color: #a7a3a5;
+	}
+
+	&:not(.checked) {
+		background: none;
+	}
 }

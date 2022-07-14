@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { NodeService } from '../../core/node/node.service';
 import { TemplatesService, TreeNodeContext, TreeNodeTemplate } from '../../core/templates.service';
 import { TreeQuery } from '../../core/tree/tree.query';
@@ -12,12 +12,13 @@ import { SubTree } from '../../core/tree/tree.store';
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NodeWrapperComponent implements OnInit {
-	template!: TreeNodeTemplate | null;
-	context!: TreeNodeContext;
-	isActive$!: Observable<boolean | undefined>;
-	path!: string[];
+	@Input() nodeId!: string;
 
-	@Input() subTree!: SubTree;
+	public template!: TreeNodeTemplate | null;
+	public context!: TreeNodeContext;
+	public isActive$!: Observable<boolean | undefined>;
+	public path!: string[];
+	public subTree!: SubTree;
 
 	constructor(
 		private treeQuery: TreeQuery,
@@ -29,7 +30,8 @@ export class NodeWrapperComponent implements OnInit {
 		this.template = this.templates.getTemplate('wrapper');
 		this.context = { node$: this.service.selectNode() };
 		this.isActive$ = this.service.selectFlag('active');
-		this.path = this.treeQuery.getNodePath(this.subTree.id);
+		this.path = this.treeQuery.getNodePath(this.nodeId);
+		this.subTree = this.treeQuery.getEntity(this.nodeId)!;
 	}
 
 	toggleExpand(): void {

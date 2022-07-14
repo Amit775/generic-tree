@@ -2,6 +2,7 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NodeService } from '../../core/node/node.service';
+import { TreeQuery } from '../../core/tree/tree.query';
 import { SubTree } from '../../core/tree/tree.store';
 import { NodeDragDropService } from '../../features/node-drag-drop/node-drop-slot/node-drag-drop.service';
 
@@ -13,9 +14,11 @@ import { NodeDragDropService } from '../../features/node-drag-drop/node-drop-slo
 })
 export class NodeChildrenComponent implements OnInit {
 
-	@Input() subTree!: SubTree;
+	@Input() nodeId!: string;
+	public subTree!: SubTree
 
 	constructor(
+		private query: TreeQuery,
 		private service: NodeService,
 		private dragService: NodeDragDropService
 	) { }
@@ -24,6 +27,7 @@ export class NodeChildrenComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.isExpanded$ = this.service.selectFlag('expanded');
+		this.subTree = this.query.getEntity(this.nodeId)!;
 	}
 
 	onDrop(event: CdkDragDrop<SubTree>) {

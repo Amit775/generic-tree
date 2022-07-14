@@ -1,7 +1,5 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { ChangeDetectionStrategy, Component, ContentChild, OnInit, TemplateRef } from '@angular/core';
-import { filterNilValue } from '@datorama/akita';
-import { Observable } from 'rxjs';
+import { ChangeDetectionStrategy, Component, ContentChild, Input, OnInit, TemplateRef } from '@angular/core';
 import { TemplatesService, TreeNodeTemplate } from '../../core/templates.service';
 import { TreeQuery } from '../../core/tree/tree.query';
 import { SubTree } from '../../core/tree/tree.store';
@@ -15,33 +13,35 @@ import { NodeDragDropService } from '../../features/node-drag-drop/node-drop-slo
 })
 export class RootComponent implements OnInit {
 
-	@ContentChild('treeNodeContent', { read: TemplateRef }) 
+	@ContentChild('treeNodeContent', { read: TemplateRef })
 	set treeNodeContentTemplate(value: TreeNodeTemplate | undefined) {
 		this.templatesService.setTemplates({ content: value });
 	}
-	@ContentChild('treeNodeWrapper', { read: TemplateRef }) 
+	@ContentChild('treeNodeWrapper', { read: TemplateRef })
 	set treeNodeWrapperTemplate(value: TreeNodeTemplate | undefined) {
 		this.templatesService.setTemplates({ wrapper: value });
 	}
-	@ContentChild('treeNodeLoading', { read: TemplateRef }) 
+	@ContentChild('treeNodeLoading', { read: TemplateRef })
 	set treeNodeLoadingTemplate(value: TreeNodeTemplate | undefined) {
 		this.templatesService.setTemplates({ loading: value });
 	}
-	@ContentChild('treeNodeFull', { read: TemplateRef }) 
+	@ContentChild('treeNodeFull', { read: TemplateRef })
 	set treeNodeFullTemplate(value: TreeNodeTemplate | undefined) {
 		this.templatesService.setTemplates({ full: value });
 	}
 
+	@Input() rootId: string = 'root';
+
+	public root: SubTree | undefined;
+
 	constructor(
 		private query: TreeQuery,
 		private dragService: NodeDragDropService,
-		private templatesService: TemplatesService
+		private templatesService: TemplatesService,
 	) { }
 
-	public virtualRoot$!: Observable<SubTree>;
-
 	ngOnInit(): void {
-		this.virtualRoot$ = this.query.selectEntity('root').pipe(filterNilValue());
+		this.root = this.query.getEntity(this.rootId);
 	}
 
 	onDrop(event: CdkDragDrop<SubTree>): void {

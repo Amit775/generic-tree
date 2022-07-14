@@ -14,7 +14,7 @@ export class NodeContentComponent implements OnInit {
 	template!: TreeNodeTemplate | null;
 	context!: TreeNodeContext;
 
-	@Input() subTree!: SubTree;
+	@Input() nodeId!: string;
 
 	public get node(): INodeState {
 		return this.service.getNode();
