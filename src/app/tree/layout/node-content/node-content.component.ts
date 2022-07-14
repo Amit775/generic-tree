@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { NodeService } from '../../core/node/node.service';
 import { TemplatesService, TreeNodeContext, TreeNodeTemplate } from '../../core/templates.service';
-import { SubTree } from '../../core/tree/tree.store';
 import { INodeState } from '../../models/node.state';
 
 @Component({

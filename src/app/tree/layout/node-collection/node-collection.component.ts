@@ -1,4 +1,3 @@
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { distinctUntilArrayItemChanged } from '@datorama/akita';
 import { Observable } from 'rxjs';
