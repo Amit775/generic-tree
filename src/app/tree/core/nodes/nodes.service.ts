@@ -5,13 +5,20 @@ import { INodeState } from "../../models/node.state";
 
 @Injectable({ providedIn: 'root' })
 export class NodesService {
-    constructor(private store: NodesStore, private query: NodesQuery) { }
+	constructor(
+		private store: NodesStore,
+		private query: NodesQuery
+	) { }
 
-    setNodes(nodes: INodeState[]): void {
-        this.store.set(nodes);
-    }
+	setNodes(nodes: INodeState[]): void {
+		this.store.set(nodes);
+	}
 
-    addNodes(nodes: INodeState[]): void {
-        this.store.add(nodes);
-    }
+	addNodes(nodes: INodeState[]): void {
+		this.store.add(nodes);
+	}
+
+	updateNodeName(nodeId: string, name: string): void {
+		this.store.update(nodeId, e => ({ ...e, data: { ...e.data, display: name }}))
+	}
 }

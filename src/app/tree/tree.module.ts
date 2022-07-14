@@ -10,9 +10,7 @@ import { NodeComponent } from './layout/node/node.component';
 import { RootComponent } from './layout/root/root.component';
 import { AnimateExpandDirective } from './shared/animate-expand/animate-expand.directive';
 import { MaterialModule } from './shared/material/material.module';
-import { ToggleOnCheckDirective } from './shared/toggle-on-check.directive';
 import { TypePipe } from './shared/type.pipe';
-
 
 @NgModule({
   declarations: [
@@ -25,7 +23,6 @@ import { TypePipe } from './shared/type.pipe';
     NodeChildrenComponent,
     AnimateExpandDirective,
     TypePipe,
-	ToggleOnCheckDirective,
   ],
   imports: [
     CommonModule,

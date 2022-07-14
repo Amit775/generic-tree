@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, ContentChild, Input, OnInit, Templa
 import { TemplatesService, TreeNodeTemplate } from '../../core/templates.service';
 import { TreeQuery } from '../../core/tree/tree.query';
 import { SubTree } from '../../core/tree/tree.store';
-import { NodeDragDropService } from '../../features/node-drag-drop/node-drop-slot/node-drag-drop.service';
 
 @Component({
 	selector: 'tree-root',

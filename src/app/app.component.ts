@@ -1,7 +1,6 @@
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { guid, HashMap } from '@datorama/akita';
-import { tap, Observable, of, switchMap } from 'rxjs';
+import { HashMap } from '@datorama/akita';
+import { Observable, of, switchMap, tap } from 'rxjs';
 import { NodesQuery } from './tree/core/nodes/nodes.query';
 import { NodesService } from './tree/core/nodes/nodes.service';
 import { TreeQuery } from './tree/core/tree/tree.query';
@@ -125,7 +124,8 @@ export class AppComponent implements OnInit {
 	}
 
 	updateNode(): void {
-
+		const nodeId = this.nodesQuery.getActiveId()?.[0] || 'root';
+		this.nodesService.updateNodeName(nodeId, `updated ${nodeId} to ${uuid()}`);
 	}
 }
 
