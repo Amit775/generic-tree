@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from "@angular/core";
-import { map, Observable, tap } from "rxjs";
+import { map, Observable } from "rxjs";
 import { NodeQuery } from "../../core/node/node.query";
 import { NodeService } from "../../core/node/node.service";
 import { TreeQuery } from "../../core/tree/tree.query";
