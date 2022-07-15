@@ -11,19 +11,15 @@ import { TreeQuery } from '../../core/tree/tree.query';
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NodeCollectionComponent implements OnInit {
-	template: TreeNodeTemplates['full'] | null = null;
-
 	@Input() nodeId!: string;
 
 	public children$!: Observable<string[]>;
 
 	constructor(
-		private templates: TemplatesService,
 		private treeQuery: TreeQuery,
 	) { }
 
 	ngOnInit(): void {
-		this.template = this.templates.getTemplate('full');
 		this.children$ = this.treeQuery.selectEntity(this.nodeId, e => e!.children!).pipe(
 			distinctUntilArrayItemChanged(),
 		);

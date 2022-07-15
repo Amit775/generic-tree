@@ -10,14 +10,11 @@ import { INodeState } from '../../models/node.state';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NodeContentComponent implements OnInit {
-	template!: TreeNodeTemplate | null;
-	context!: TreeNodeContext;
+	public template!: TreeNodeTemplate | null;
+	public context!: TreeNodeContext;
+	public node!: INodeState;
 
 	@Input() nodeId!: string;
-
-	public get node(): INodeState {
-		return this.service.getNode();
-	}
 
 	constructor(
 		private service: NodeService,
@@ -26,6 +23,7 @@ export class NodeContentComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.template = this.templates.getTemplate('content');
-		this.context = { node$: this.service.selectNode() }
+		this.context = { node$: this.service.selectNode() };
+		this.node = this.service.getNode();
 	}
 }

@@ -1,9 +1,10 @@
 <div class="tree-node-expander" *ngIf="subTree.children; else placeholder">
-    <button mat-icon-button class="blah" [class.is-expanded]="isExpanded$ | async">
+    <button mat-icon-button [class.is-expanded]="isExpanded$ | async">
         <mat-icon>chevron_right</mat-icon>
     </button>
 </div>
 
 <ng-template #placeholder>
+	// TODO: replace it with layer icon
     <div class="tree-node-expander placeholder"></div>
 </ng-template>

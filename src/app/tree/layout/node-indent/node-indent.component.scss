@@ -1,0 +1,17 @@
+.node-indents {
+	height: 100%;
+	pointer-events: none;
+
+	.node-indent {
+		display: inline-block;
+		box-sizing: border-box;
+		height: 100%;
+		border-left: 1px solid #858585;
+		transition: border-color .1s linear;
+		width: 22px;
+
+		&.active {
+			border-color: #585858;
+		}
+	}
+}
