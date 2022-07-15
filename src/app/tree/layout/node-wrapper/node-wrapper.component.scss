@@ -3,8 +3,16 @@
 	height: 100%;
 	line-height: 22px;
 	align-items: center;
+	transition: background-color 0.4s;
 
 	.tree-node-content-wrapper {
 		flex-grow: 1;
 	}
+
+	&.active:not(.drag-over) {
+        background-color: cornflowerblue;
+    }
+    &:hover:not(.active) {
+        background-color: lighten($color: rgb(100, 149, 237), $amount: 20);
+    }
 }

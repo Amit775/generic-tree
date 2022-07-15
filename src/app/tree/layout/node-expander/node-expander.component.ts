@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NodeService } from '../../core/node/node.service';
 import { TreeQuery } from '../../core/tree/tree.query';
@@ -13,7 +13,6 @@ import { SubTree } from '../../core/tree/tree.store';
 export class NodeExpanderComponent implements OnInit {
 
 	@Input() nodeId!: string;
-	@Output() toggled = new EventEmitter<void>();
 
 	public subTree!: SubTree;
 
@@ -28,9 +27,5 @@ export class NodeExpanderComponent implements OnInit {
 	ngOnInit(): void {
 		this.isExpanded$ = this.service.selectFlag('expanded');
 		this.subTree = this.query.getEntity(this.nodeId)!;
-	}
-
-	toggle(): void {
-		this.toggled.emit();
 	}
 }

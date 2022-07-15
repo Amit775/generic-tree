@@ -34,10 +34,6 @@ export class NodeWrapperComponent implements OnInit {
 		this.subTree = this.treeQuery.getEntity(this.nodeId)!;
 	}
 
-	toggleExpand(): void {
-		this.service.toggleFlag('expanded');
-	}
-
 	toggleActive(event: MouseEvent): void {
 		this.service.WithinSingleUpdate(() => {
 			const multiple = event.ctrlKey;
