@@ -37,12 +37,3 @@ $generic-tree-theme: mat.define-light-theme((
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-.mine-tooltip {
-  border-radius: 10px;
-  min-width: 100px;
-  min-height: 20px;
-  font-size: large;
-  text-align: center;
-  color: #ffffff;
-  background-color: #707070;
-}

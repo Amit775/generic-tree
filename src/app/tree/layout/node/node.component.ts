@@ -19,7 +19,7 @@ export class NodeComponent implements OnInit {
 
 	@Input() public nodeId!: string;
 
-	public node: SubTree | undefined;
+	public subTree: SubTree | undefined;
 
 	constructor(
 		private query: TreeQuery, 
@@ -31,6 +31,6 @@ export class NodeComponent implements OnInit {
 		this.service.init(this.nodeId);
 		this.template = this.templates.getTemplate('full');
 		this.context = { node$: this.service.selectNode() }
-		this.node = this.query.getEntity(this.nodeId);
+		this.subTree = this.query.getEntity(this.nodeId);
 	}
 }
