@@ -1,8 +1,6 @@
 <div class="tree-node-content">
-    <ng-container *ngIf="!template">
-		not bublil
-        <span> {{ node['data'].display }} </span>
-    </ng-container>
-    <ng-container [ngTemplateOutlet]="template" [ngTemplateOutletContext]="context">
-    </ng-container>
+	<ng-container *ngIf="!template">
+		not bublil <span> {{ node['data'].display }} </span>
+	</ng-container>
+	<ng-container [ngTemplateOutlet]="template" [ngTemplateOutletContext]="context"></ng-container>
 </div>

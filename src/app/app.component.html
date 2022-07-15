@@ -5,25 +5,6 @@
 <tree-root *ngIf="root$ | async">
     <ng-template let-node$="node$" #treeNodeContent>
         <span>bublil</span>
-        <span> {{ (node$ | async | type )['data']['display'] }} </span>
+        <span> {{ (node$ | async | notNull : { data: { display: 'default' } } )['data']['display'] }} </span>
     </ng-template>
 </tree-root>
-
-    <!-- <ng-template let-node="node" #treeNodeFull>
-        <tree-node [node]="node" cdkDrag cdkDragLockAxis="y" [cdkDragData]="node.id">
-            <tree-node-content></tree-node-content>
-        </tree-node>
-    </ng-template> -->
-<!-- <mat-list>
-    <mat-list-item *ngFor="let item of roots">
-        <div class="folder" *ngIf="item.children; else leaf;">
-            <div> {{ item.id }} </div>
-            <mat-list class="children" [style.padding-left]="'20px'">
-                <mat-list-item *ngFor="let subitem of item.children">
-                    <div> {{ subitem }} </div>
-                </mat-list-item>
-            </mat-list>
-        </div>
-        <ng-template #leaf> {{ item.id }} </ng-template>
-    </mat-list-item>
-</mat-list> -->

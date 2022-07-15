@@ -1,8 +1,8 @@
-<div *ngIf="!template" class="tree-node-wrapper" [style.padding-left]="path.length * 24 + 'px'"
-  [class.active]="isActive$ | async" (click)="toggleActive($event)">
-  <tree-node-expander [nodeId]="nodeId"></tree-node-expander>
-  <div class="tree-node-content-wrapper">
-    <tree-node-content [nodeId]="nodeId"></tree-node-content>
-  </div>
+<div *ngIf="!template" class="tree-node-wrapper" [class.active]="isActive$ | async" (click)="toggleActive($event)">
+	<tree-node-indent [nodeId]="nodeId"></tree-node-indent>
+	<tree-node-expander [nodeId]="nodeId"></tree-node-expander>
+	<div class="tree-node-content-wrapper">
+		<tree-node-content [nodeId]="nodeId"></tree-node-content>
+	</div>
 </div>
 <ng-container [ngTemplateOutlet]="template" [ngTemplateOutletContext]="context"></ng-container>

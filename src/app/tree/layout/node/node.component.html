@@ -1,5 +1,5 @@
 <div *ngIf="!template" class="tree-node">
 	<tree-node-wrapper [nodeId]="nodeId"></tree-node-wrapper>
-	<tree-node-children [nodeId]="nodeId"></tree-node-children>
+	<tree-node-collection  *ngIf="hasChildren && (isExpanded$ | async)"  [nodeId]="nodeId"></tree-node-collection>
 </div>
 <ng-container [ngTemplateOutlet]="template" [ngTemplateOutletContext]="context"></ng-container>

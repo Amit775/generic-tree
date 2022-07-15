@@ -1,7 +1,13 @@
 .tree-node-expander {
-    width: 40px;
-    height: 40px;
-    .is-expanded {
+	line-height: 22px;
+	width: 22px;
+	.is-expanded {
         transform: rotate(90deg);
     }
+
+	.mat-icon-button, .placeholder { 
+		height: 22px;
+		width: 22px;
+		line-height: 22px;
+	}
 }

@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { QueryEntity } from "@datorama/akita";
+import { map, Observable, of, switchMap } from "rxjs";
 import { ITreeState, TreeStore } from "./tree.store";
 
 @Injectable({ providedIn: 'root' })
@@ -9,5 +10,12 @@ export class TreeQuery extends QueryEntity<ITreeState> {
 	getNodePath(nodeId: string): string[] {
 		const parentId = this.getEntity(nodeId)!.parentId;
 		return parentId ? [...this.getNodePath(parentId), parentId] : [];
+	}
+
+	selectNodePath(nodeId: string): Observable<string[]> {
+		return this.selectEntity(nodeId, node => node?.parentId).pipe(
+			switchMap((parentId) => parentId == null ? of([]) : this.selectNodePath(parentId)),
+			map(path => [...path, nodeId])
+		)
 	}
 }

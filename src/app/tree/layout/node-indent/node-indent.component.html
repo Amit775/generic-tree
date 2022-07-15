@@ -1,0 +1,3 @@
+<div class="node-indents" *ngIf="path$ | async | notNull : [] as path">
+	<div class="node-indent" *ngFor="let i of path" [class.active]="active$ | async"></div>
+</div>
