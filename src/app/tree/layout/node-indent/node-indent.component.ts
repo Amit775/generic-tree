@@ -27,7 +27,7 @@ export class NodeIndentComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.node$ = this.query.select();
-		this.path$ = this.treeQuery.selectNodePath(this.nodeId).pipe(map(path => path.slice(2)), tap(x => console.log(this.nodeId, x.length)));
+		this.path$ = this.treeQuery.selectNodePath(this.nodeId).pipe(map(path => path.slice(2)));
 		this.active$ = this.service.selectFlag('active');
 	}
 }
