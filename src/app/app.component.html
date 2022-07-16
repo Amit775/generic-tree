@@ -1,6 +1,7 @@
 <button mat-raised-button (click)="addNode()">Add</button>
 <button mat-raised-button (click)="removeNode()">Remove</button>
 <button mat-raised-button (click)="updateNode()">Update</button>
+<button mat-raised-button (click)="expandAll()">Expand All</button>
 
 <tree-root *ngIf="root$ | async">
     <ng-template let-node$="node$" #treeNodeContent>

@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { HashMap } from '@datorama/akita';
+import { applyTransaction, HashMap, UpdateStateCallback } from '@datorama/akita';
 import { Observable, of, switchMap, tap } from 'rxjs';
 import { NodesQuery } from './tree/core/nodes/nodes.query';
 import { NodesService } from './tree/core/nodes/nodes.service';
 import { TreeQuery } from './tree/core/tree/tree.query';
 import { TreeService } from './tree/core/tree/tree.service';
-import { SubTree } from './tree/core/tree/tree.store';
+import { ITreeState, SubTree } from './tree/core/tree/tree.store';
 import { INodeState } from './tree/models/node.state';
 
 interface NodeData {
@@ -127,6 +127,11 @@ export class AppComponent implements OnInit {
 		const nodeId = this.nodesQuery.getActiveId()?.[0] || 'root';
 		this.nodesService.updateNodeName(nodeId, `updated ${nodeId} to ${uuid()}`);
 	}
+
+	expandAll(): void {
+		const ids = this.treeQuery.getDescendetsIds('root');
+		this.nodesService.updateMultiNodes(ids, e => ({ ...e, flags: { ...e.flags, expanded: true } }));
+	}
 }
 
 let lastid: string;
@@ -144,14 +149,14 @@ function generateNodes(count: number, parentId: string = '', maxDepth: number = 
 	const nodes: NodeData[] = [];
 	if (maxDepth === 0) return nodes;
 	for (let index = 0; index < count; index++) {
-		const id = parentId + "abcde"[index] 
+		const id = parentId + "abcde"[index]
 		nodes.push({
 			id: id,
 			display: id,
 			parentId: parentId || null
 		});
 
-		nodes.push(...generateNodes(count, id, maxDepth -1));
+		nodes.push(...generateNodes(count, id, maxDepth - 1));
 	}
 
 	return nodes;

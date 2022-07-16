@@ -1,13 +1,12 @@
 import { Injectable } from "@angular/core";
-import { NodesStore } from "./nodes.store";
-import { NodesQuery } from "./nodes.query";
+import { UpdateStateCallback } from "@datorama/akita";
 import { INodeState } from "../../models/node.state";
+import { NodesStore } from "./nodes.store";
 
 @Injectable({ providedIn: 'root' })
 export class NodesService {
 	constructor(
 		private store: NodesStore,
-		private query: NodesQuery
 	) { }
 
 	setNodes(nodes: INodeState[]): void {
@@ -20,5 +19,9 @@ export class NodesService {
 
 	updateNodeName(nodeId: string, name: string): void {
 		this.store.update(nodeId, e => ({ ...e, data: { ...e.data, display: name }}))
+	}
+
+	updateMultiNodes(nodeIds: string[], update: UpdateStateCallback<INodeState>): void {
+		this.store.update(nodeIds, update);
 	}
 }

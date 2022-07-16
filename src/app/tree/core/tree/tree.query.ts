@@ -18,4 +18,9 @@ export class TreeQuery extends QueryEntity<ITreeState> {
 			map(path => [...path, nodeId])
 		)
 	}
+
+	getDescendetsIds(nodeId: string): string[] {
+		const children = this.getEntity(nodeId)?.children;
+		return [...children ?? [], ...children?.flatMap(n => this.getDescendetsIds(n)) ?? []]
+	}
 }
