@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { applyTransaction, HashMap, UpdateStateCallback } from '@datorama/akita';
+import { HashMap } from '@datorama/akita';
 import { Observable, of, switchMap, tap } from 'rxjs';
 import { NodesQuery } from './tree/core/nodes/nodes.query';
 import { NodesService } from './tree/core/nodes/nodes.service';
 import { TreeQuery } from './tree/core/tree/tree.query';
 import { TreeService } from './tree/core/tree/tree.service';
-import { ITreeState, SubTree } from './tree/core/tree/tree.store';
+import { SubTree } from './tree/core/tree/tree.store';
 import { INodeState } from './tree/models/node.state';
 
 interface NodeData {
@@ -57,7 +57,8 @@ export class AppComponent implements OnInit {
 			root: {
 				id: 'root',
 				parentId: null,
-				children: indexedByParentId['root'].map(child => child.id)
+				children: indexedByParentId['root'].map(child => child.id),
+				isExpanded: true
 			}
 		};
 
@@ -68,7 +69,8 @@ export class AppComponent implements OnInit {
 				subTrees[childId] = {
 					id: childId,
 					parentId: parentId,
-					children: indexedByParentId[childId]?.map(grandChild => grandChild.id)
+					children: indexedByParentId[childId]?.map(grandChild => grandChild.id),
+					isExpanded: false
 				}
 
 				buildSubTree(childId);
@@ -94,7 +96,13 @@ export class AppComponent implements OnInit {
 	}
 
 	convertNodes(datas: NodeData[]): INodeState[] {
-		return datas.map(data => this.convert(data));
+		return [{
+			data: { virtualRoot: true },
+			id: 'root',
+			flags: {}
+		},
+		...datas.map(data => this.convert(data))
+		];
 	}
 
 	convert(data: NodeData): INodeState {
@@ -114,7 +122,7 @@ export class AppComponent implements OnInit {
 			parentId: parentId
 		};
 
-		this.treeService.addNode({ id: newNode.id, parentId: newNode.parentId, children: undefined });
+		this.treeService.addNode({ id: newNode.id, parentId: newNode.parentId, children: undefined, isExpanded: false });
 		this.nodesService.addNodes([this.convert(newNode)]);
 	}
 
@@ -130,7 +138,7 @@ export class AppComponent implements OnInit {
 
 	expandAll(): void {
 		const ids = this.treeQuery.getDescendetsIds('root');
-		this.nodesService.updateMultiNodes(ids, e => ({ ...e, flags: { ...e.flags, expanded: true } }));
+		this.nodesService.updateMultiNodes(ids, e => ({ ...e, isExpanded: true }));
 	}
 }
 

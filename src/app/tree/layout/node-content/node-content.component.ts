@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
 import { NodeService } from '../../core/node/node.service';
 import { TemplatesService, TreeNodeContext, TreeNodeTemplate } from '../../core/templates.service';
 import { INodeState } from '../../models/node.state';
@@ -9,7 +9,7 @@ import { INodeState } from '../../models/node.state';
 	styleUrls: ['./node-content.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NodeContentComponent implements OnInit {
+export class NodeContentComponent implements OnChanges {
 	public template!: TreeNodeTemplate | null;
 	public context!: TreeNodeContext;
 	public node!: INodeState;
@@ -21,7 +21,7 @@ export class NodeContentComponent implements OnInit {
 		private templates: TemplatesService
 	) { }
 
-	ngOnInit(): void {
+	ngOnChanges(): void {
 		this.template = this.templates.getTemplate('content');
 		this.context = { node$: this.service.selectNode() };
 		this.node = this.service.getNode();

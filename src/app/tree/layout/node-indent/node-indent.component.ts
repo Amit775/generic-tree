@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Input, OnChanges, ViewEncapsulation } from "@angular/core";
 import { map, Observable } from "rxjs";
 import { NodeQuery } from "../../core/node/node.query";
 import { NodeService } from "../../core/node/node.service";
@@ -12,7 +12,7 @@ import { INodeState } from "../../models/node.state";
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	encapsulation: ViewEncapsulation.None
 })
-export class NodeIndentComponent implements OnInit {
+export class NodeIndentComponent implements OnChanges {
 	@Input() nodeId!: string;
 
 	public node$!: Observable<INodeState>;
@@ -25,7 +25,7 @@ export class NodeIndentComponent implements OnInit {
 		private service: NodeService
 	) { }
 
-	ngOnInit(): void {
+	ngOnChanges(): void {
 		this.node$ = this.query.select();
 		this.path$ = this.treeQuery.selectNodePath(this.nodeId).pipe(map(path => path.slice(2)));
 		this.active$ = this.service.selectFlag('active');

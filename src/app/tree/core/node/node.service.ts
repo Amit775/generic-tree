@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { Flags } from "../../models/flags.model";
 import { INodeState } from "../../models/node.state";
 import { NodesStore } from "../nodes/nodes.store";
+import { TreeStore } from "../tree/tree.store";
 import { NodeQuery } from "./node.query";
 import { NodeStore } from "./node.store";
 
@@ -12,7 +13,8 @@ export class NodeService {
 	constructor(
 		private query: NodeQuery,
 		private store: NodeStore,
-		private nodesStore: NodesStore
+		private nodesStore: NodesStore,
+		private treeStore: TreeStore
 	) { }
 
 	private _id!: string;
@@ -50,6 +52,10 @@ export class NodeService {
 
 	WithinSingleUpdate<T>(action: () => T): T {
 		return applyTransaction(action);
+	}
+
+	toggleExpand(): void {
+		this.treeStore.update(this._id, e => ({ ...e, isExpanded: !e.isExpanded }));
 	}
 
 	private updateFlag(flag: keyof Flags, value: boolean): (node: INodeState) => INodeState {

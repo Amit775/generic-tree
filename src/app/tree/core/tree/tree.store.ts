@@ -5,6 +5,7 @@ export interface SubTree {
 	id: string;
 	parentId: string | null;
 	children: string[] | undefined;
+	isExpanded: boolean;
 }
 
 export interface ITreeState extends EntityState<SubTree, SubTree['id']> { }

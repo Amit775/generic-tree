@@ -1,5 +1,9 @@
 .tree-node-collection {
-    height: 100%;
+    height: 100vh;
 	display: flex;
 	flex-direction: column;
+
+	tree-node {
+		height: 22px;
+	}
 }

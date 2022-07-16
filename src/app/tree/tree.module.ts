@@ -25,7 +25,7 @@ import { NotNullPipe } from './shared/not-null.pipe';
 	imports: [
 		CommonModule,
 		MaterialModule,
-		NodeDragDropModule
+		NodeDragDropModule,
 	],
 	exports: [
 		RootComponent,

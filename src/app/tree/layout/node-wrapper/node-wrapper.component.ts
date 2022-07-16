@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NodeService } from '../../core/node/node.service';
 import { TemplatesService, TreeNodeContext, TreeNodeTemplate } from '../../core/templates.service';
@@ -11,7 +11,7 @@ import { SubTree } from '../../core/tree/tree.store';
 	styleUrls: ['./node-wrapper.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NodeWrapperComponent implements OnInit {
+export class NodeWrapperComponent implements OnChanges {
 	@Input() nodeId!: string;
 
 	public template!: TreeNodeTemplate | null;
@@ -26,7 +26,7 @@ export class NodeWrapperComponent implements OnInit {
 		private templates: TemplatesService,
 	) { }
 
-	ngOnInit(): void {
+	ngOnChanges(): void {
 		this.template = this.templates.getTemplate('wrapper');
 		this.context = { node$: this.service.selectNode() };
 		this.isActive$ = this.service.selectFlag('active');
@@ -39,7 +39,7 @@ export class NodeWrapperComponent implements OnInit {
 			const multiple = event.ctrlKey;
 			this.service.toggleFlag('active', !multiple);
 			if (!multiple && this.subTree.children != null) {
-				this.service.toggleFlag('expanded');
+				this.service.toggleExpand();
 			}
 		});
 	}
