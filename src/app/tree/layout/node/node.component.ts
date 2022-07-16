@@ -49,7 +49,6 @@ export class NodeComponent implements OnInit, OnChanges, OnDestroy {
 		this.subscription = this.query.selectEntity(this.nodeId, e => e?.isExpanded).pipe(
 			untilDestroyed(this)
 		).subscribe(isExpanded => {
-			console.log(this.nodeId, isExpanded);
 			if (isExpanded) this.treeService.addVisibleChildren(this.nodeId, this.subTree?.children);
 			else this.treeService.removeVisibleChildren(this.nodeId, this.subTree?.children);
 		})

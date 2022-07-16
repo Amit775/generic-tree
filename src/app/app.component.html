@@ -2,8 +2,9 @@
 <button mat-raised-button (click)="removeNode()">Remove</button>
 <button mat-raised-button (click)="updateNode()">Update</button>
 <button mat-raised-button (click)="expandAll()">Expand All</button>
+<button mat-raised-button (click)="collapseAll()">Collapse All</button>
 
-<tree-root *ngIf="root$ | async">
+<tree-root [data]="data$ | async | notNull : []">
     <ng-template let-node$="node$" #treeNodeContent>
         <span>bublil</span>
         <span> {{ (node$ | async | notNull : { data: { display: 'default' } } )['data']['display'] }} </span>

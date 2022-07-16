@@ -27,7 +27,6 @@ export class TreeService {
 			}
 			s.entities!['root'].children?.forEach(getChildren);
 
-			console.log(result);
 			return result;
 		}))
 	}
@@ -51,7 +50,6 @@ export class TreeService {
 	}
 
 	public setSubTrees(subTrees: HashMap<SubTree>) {
-		console.log(subTrees);
 		this.store.set(subTrees);
 	}
 

@@ -1,12 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { HashMap } from '@datorama/akita';
-import { Observable, of, switchMap, tap } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { NodesQuery } from './tree/core/nodes/nodes.query';
 import { NodesService } from './tree/core/nodes/nodes.service';
 import { TreeQuery } from './tree/core/tree/tree.query';
 import { TreeService } from './tree/core/tree/tree.service';
-import { SubTree } from './tree/core/tree/tree.store';
-import { INodeState } from './tree/models/node.state';
 
 interface NodeData {
 	display: string;
@@ -30,87 +27,15 @@ export class AppComponent implements OnInit {
 		private treeQuery: TreeQuery
 	) { }
 
-	root$!: Observable<SubTree | undefined>;
+	data$!: Observable<NodeData[]>;
 
 	ngOnInit(): void {
-		// this.treeQuery.selectAll().subscribe(x => console.log('tree', x));
-		// this.nodesQuery.selectAll().subscribe(x => console.log('nodes', x));
-		this.root$ = this.fetchNodes$().pipe(
-			tap(nodes => this.buildStores(nodes)),
-			switchMap(() => this.treeQuery.selectEntity('root'))
-		);
+		this.data$ = this.fetchNodes$();
 	}
 
 	fetchNodes$(): Observable<NodeData[]> {
-		const nodes: NodeData[] = generateNodes(5);
+		const nodes: NodeData[] = generateNodes(4);
 		return of(nodes);
-	}
-
-	buildStores(nodes: NodeData[]): void {
-		this.treeService.setSubTrees(this.buildTree(nodes));
-		this.nodesService.setNodes(this.convertNodes(nodes));
-	}
-
-	buildTree(nodes: NodeData[]): HashMap<SubTree> {
-		const indexedByParentId = this.indexByParentId(nodes);
-		const subTrees: HashMap<SubTree> = {
-			root: {
-				id: 'root',
-				parentId: null,
-				children: indexedByParentId['root'].map(child => child.id),
-				isExpanded: true
-			}
-		};
-
-		function buildSubTree(parentId: string): void {
-			const { children } = subTrees[parentId];
-
-			children?.forEach(childId => {
-				subTrees[childId] = {
-					id: childId,
-					parentId: parentId,
-					children: indexedByParentId[childId]?.map(grandChild => grandChild.id),
-					isExpanded: false
-				}
-
-				buildSubTree(childId);
-			});
-		}
-
-		buildSubTree('root');
-
-		return subTrees;
-	}
-
-	indexByParentId(nodes: NodeData[]): HashMap<NodeData[]> {
-		const indexedByParentId: HashMap<NodeData[]> = nodes.reduce((result, data) => {
-			const parentId = data.parentId || 'root';
-			if (!Object.keys(result).includes(parentId)) {
-				result[parentId] = [];
-			}
-
-			result[parentId].push(data);
-			return result;
-		}, {} as HashMap<NodeData[]>);
-		return indexedByParentId;
-	}
-
-	convertNodes(datas: NodeData[]): INodeState[] {
-		return [{
-			data: { virtualRoot: true },
-			id: 'root',
-			flags: {}
-		},
-		...datas.map(data => this.convert(data))
-		];
-	}
-
-	convert(data: NodeData): INodeState {
-		return {
-			data,
-			flags: {},
-			id: data.id,
-		}
 	}
 
 	addNode(): void {
@@ -123,7 +48,7 @@ export class AppComponent implements OnInit {
 		};
 
 		this.treeService.addNode({ id: newNode.id, parentId: newNode.parentId, children: undefined, isExpanded: false });
-		this.nodesService.addNodes([this.convert(newNode)]);
+		this.nodesService.addNodes([{ data: newNode, flags: {}, id: newNode.id }]);
 	}
 
 	removeNode(): void {
@@ -139,6 +64,11 @@ export class AppComponent implements OnInit {
 	expandAll(): void {
 		const ids = this.treeQuery.getDescendetsIds('root');
 		this.nodesService.updateMultiNodes(ids, e => ({ ...e, isExpanded: true }));
+	}
+
+	collapseAll(): void {
+		const ids = this.treeQuery.getDescendetsIds('root');
+		this.nodesService.updateMultiNodes(ids, e => ({ ...e, isExpanded: false }));
 	}
 }
 
