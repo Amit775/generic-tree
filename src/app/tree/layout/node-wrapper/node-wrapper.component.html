@@ -1,4 +1,4 @@
-<div *ngIf="!template" class="tree-node-wrapper" [class.active]="isActive$ | async" (click)="toggleActive($event)">
+<div *ngIf="!template" class="tree-node-wrapper" [class.selected]="isSelected$ | async" (click)="toggleSelected($event)">
 	<tree-node-indent [nodeId]="nodeId"></tree-node-indent>
 	<tree-node-expander [nodeId]="nodeId"></tree-node-expander>
 	<div class="tree-node-content-wrapper">

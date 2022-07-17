@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, ViewEncapsulation } from "@angular/core";
 import { map, Observable } from "rxjs";
-import { NodeQuery } from "../../core/node/node.query";
 import { NodeService } from "../../core/node/node.service";
-import { TreeQuery } from "../../core/tree/tree.query";
 import { INodeState } from "../../models/node.state";
 
 @Component({
@@ -17,17 +15,15 @@ export class NodeIndentComponent implements OnChanges {
 
 	public node$!: Observable<INodeState>;
 	public path$!: Observable<string[]>;
-	public active$!: Observable<boolean | undefined>;
+	public isSelected$!: Observable<boolean>;
 
 	constructor(
-		private query: NodeQuery,
-		private treeQuery: TreeQuery,
 		private service: NodeService
 	) { }
 
 	ngOnChanges(): void {
-		this.node$ = this.query.select();
-		this.path$ = this.treeQuery.selectNodePath(this.nodeId).pipe(map(path => path.slice(2)));
-		this.active$ = this.service.selectFlag('active');
+		this.node$ = this.service.query.select();
+		this.path$ = this.service.query.treeQuery.selectNodePath(this.nodeId).pipe(map(path => path.slice(2)));
+		this.isSelected$ = this.service.query.isSelected$();
 	}
 }

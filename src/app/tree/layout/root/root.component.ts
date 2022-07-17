@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, ContentChild, Input, OnInit, SimpleChanges, TemplateRef } from '@angular/core';
 import { HashMap } from '@datorama/akita';
-import { NodesService } from '../../core/nodes/nodes.service';
+import { DataService } from '../../core/nodes/nodes.service';
 import { TemplatesService, TreeNodeTemplate } from '../../core/templates.service';
 import { TreeQuery } from '../../core/tree/tree.query';
 import { TreeService } from '../../core/tree/tree.service';
-import { SubTree } from '../../core/tree/tree.store';
+import { createSubTree, SubTree } from '../../core/tree/tree.store';
 import { INodeState } from '../../models/node.state';
 
 @Component({
@@ -41,7 +41,7 @@ export class RootComponent<T extends { id: string, parentId: string }> implement
 		private query: TreeQuery,
 		private templatesService: TemplatesService,
 		private treeService: TreeService,
-		private nodesService: NodesService,
+		private nodesService: DataService,
 	) { }
 
 	ngOnInit(): void {
@@ -49,7 +49,7 @@ export class RootComponent<T extends { id: string, parentId: string }> implement
 	}
 
 	ngOnChanges(changes: SimpleChanges): void {
-		if(changes['data']) {
+		if (changes['data']) {
 			this.buildStores(changes['data'].currentValue);
 		}
 	}
@@ -63,24 +63,22 @@ export class RootComponent<T extends { id: string, parentId: string }> implement
 	private buildTree(nodes: T[]): HashMap<SubTree> {
 		const indexedByParentId = this.indexByParentId(nodes);
 		const subTrees: HashMap<SubTree> = {
-			root: {
+			root: createSubTree({
 				id: 'root',
-				parentId: null,
-				children: indexedByParentId['root'].map(child => child.id),
+				children: indexedByParentId['root'].map(c => c.id),
 				isExpanded: true
-			}
+			})
 		};
 
 		function buildSubTree(parentId: string): void {
 			const { children } = subTrees[parentId];
 
 			children?.forEach(childId => {
-				subTrees[childId] = {
+				subTrees[childId] = createSubTree({
 					id: childId,
 					parentId: parentId,
 					children: indexedByParentId[childId]?.map(grandChild => grandChild.id),
-					isExpanded: false
-				}
+				});
 
 				buildSubTree(childId);
 			});

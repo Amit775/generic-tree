@@ -16,7 +16,7 @@ export class NodeWrapperComponent implements OnChanges {
 
 	public template!: TreeNodeTemplate | null;
 	public context!: TreeNodeContext;
-	public isActive$!: Observable<boolean | undefined>;
+	public isSelected$!: Observable<boolean | undefined>;
 	public path!: string[];
 	public subTree!: SubTree;
 
@@ -29,15 +29,15 @@ export class NodeWrapperComponent implements OnChanges {
 	ngOnChanges(): void {
 		this.template = this.templates.getTemplate('wrapper');
 		this.context = { node$: this.service.selectNode() };
-		this.isActive$ = this.service.selectFlag('active');
+		this.isSelected$ = this.service.query.isSelected$();
 		this.path = this.treeQuery.getNodePath(this.nodeId);
 		this.subTree = this.treeQuery.getEntity(this.nodeId)!;
 	}
 
-	toggleActive(event: MouseEvent): void {
+	toggleSelected(event: MouseEvent): void {
 		this.service.WithinSingleUpdate(() => {
 			const multiple = event.ctrlKey;
-			this.service.toggleFlag('active', !multiple);
+			this.service.toggleSelected(!multiple)
 			if (!multiple && this.subTree.children != null) {
 				this.service.toggleExpand();
 			}

@@ -9,10 +9,10 @@
 		flex-grow: 1;
 	}
 
-	&.active:not(.drag-over) {
+	&.selected:not(.drag-over) {
         background-color: cornflowerblue;
     }
-    &:hover:not(.active) {
+    &:hover:not(.selected) {
         background-color: lighten($color: rgb(100, 149, 237), $amount: 20);
     }
 }

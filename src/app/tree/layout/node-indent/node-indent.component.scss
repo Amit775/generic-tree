@@ -10,7 +10,7 @@
 		transition: border-color .1s linear;
 		width: 22px;
 
-		&.active {
+		&.selected {
 			border-color: #585858;
 		}
 	}

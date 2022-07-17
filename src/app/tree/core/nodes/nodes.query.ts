@@ -3,11 +3,11 @@ import { QueryEntity } from "@datorama/akita";
 import { Observable } from "rxjs";
 import { Flags } from "../../models/flags.model";
 import { INodeState } from "../../models/node.state";
-import { INodesState, NodesStore } from "./nodes.store";
+import { INodesState, DataStore } from "./nodes.store";
 
 @Injectable({ providedIn: 'root' })
-export class NodesQuery extends QueryEntity<INodesState, INodeState, string> {
-	constructor(store: NodesStore) { super(store); }
+export class DataQuery extends QueryEntity<INodesState, INodeState, string> {
+	constructor(store: DataStore) { super(store); }
 
 	getNodesWithFlag(flag: keyof Flags, value: boolean = true): INodeState[] {
 	    return this.getAll({ filterBy: (node) => node.flags[flag] == value });
