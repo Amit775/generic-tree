@@ -1,4 +1,4 @@
-<cdk-virtual-scroll-viewport [itemSize]="'22'" [maxBufferPx]="0" [minBufferPx]="0" class="tree-node-collection">
+<cdk-virtual-scroll-viewport [itemSize]="'22'" [maxBufferPx]="500" [minBufferPx]="200" class="tree-node-collection">
 	<ng-container *cdkVirtualFor="let nodeId of nodesIds$ | async; trackBy: trackNode">
 		<tree-node [nodeId]="nodeId"></tree-node>
 	</ng-container>

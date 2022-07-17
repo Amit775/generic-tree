@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { distinctUntilArrayItemChanged } from '@datorama/akita';
-import { Observable, tap } from 'rxjs';
-import { TreeQuery } from '../../core/tree/tree.query';
+import { Observable } from 'rxjs';
 import { TreeService } from '../../core/tree/tree.service';
 
 @Component({
@@ -16,18 +15,13 @@ export class NodeCollectionComponent implements OnInit {
 	public nodesIds$!: Observable<string[]>;
 
 	constructor(
-		private treeQuery: TreeQuery,
-		private treeService: TreeService
+		private treeService: TreeService,
 	) { }
 
 	ngOnInit(): void {
 		this.nodesIds$ = this.treeService.visibleChildren$().pipe(
 			distinctUntilArrayItemChanged(),
 		);
-	}
-
-	isVisible$(nodeId: string): Observable<boolean> {
-		return this.treeQuery.isVisible$(nodeId);
 	}
 
 	trackNode(_: number, nodeId: string): string {

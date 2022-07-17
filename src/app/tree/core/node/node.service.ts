@@ -1,20 +1,16 @@
 import { Injectable } from "@angular/core";
-import { applyTransaction } from "@datorama/akita";
+import { applyTransaction, UpdateStateCallback } from "@datorama/akita";
 import { Observable } from "rxjs";
 import { Flags } from "../../models/flags.model";
 import { INodeState } from "../../models/node.state";
-import { NodesStore } from "../nodes/nodes.store";
-import { TreeStore } from "../tree/tree.store";
 import { NodeQuery } from "./node.query";
 import { NodeStore } from "./node.store";
 
 @Injectable()
 export class NodeService {
 	constructor(
-		private query: NodeQuery,
+		public query: NodeQuery,
 		private store: NodeStore,
-		private nodesStore: NodesStore,
-		private treeStore: TreeStore
 	) { }
 
 	private _id!: string;
@@ -34,18 +30,6 @@ export class NodeService {
 		return this.query.select();
 	}
 
-	toggleFlag(flag: keyof Flags, single: boolean = false): void {
-		applyTransaction(() => {
-			if (single) {
-				this.nodesStore.update(node => node.flags[flag] === true, this.updateFlag(flag, false))
-				this.nodesStore.update(state => ({ ...state, active: [] }));
-			}
-
-			this.store.update(this.updateFlag(flag, !this.getNode().flags[flag]));
-			this.nodesStore.update(state => ({ ...state, active: [...state.active, this.getNode().id] }))
-		});
-	}
-
 	selectFlag(flag: keyof Flags): Observable<boolean | undefined> {
 		return this.query.select(node => node?.flags[flag]);
 	}
@@ -55,10 +39,20 @@ export class NodeService {
 	}
 
 	toggleExpand(): void {
-		this.treeStore.update(this._id, e => ({ ...e, isExpanded: !e.isExpanded }));
+		const currentIsExpanded = this.query.isExpanded();
+		this.store.setIsExpanded(!currentIsExpanded);
 	}
 
-	private updateFlag(flag: keyof Flags, value: boolean): (node: INodeState) => INodeState {
+	toggleSelected(single: boolean): void {
+		const currentIsSelected = this.query.isSelected();
+		this.setIsSelected(!currentIsSelected, single);
+	}
+
+	setIsSelected(isSelected: boolean, single: boolean): void {
+		this.store.setIsSelected(isSelected, single);
+	}
+
+	private updateFlag(flag: keyof Flags, value: boolean): UpdateStateCallback<INodeState> {
 		return (node: INodeState) => ({
 			...node,
 			flags: {
